@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'No build step needed'",
+    "build": "npm install",
     "start": "node server.js"
   },
   "keywords": [],
