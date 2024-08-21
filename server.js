@@ -8,7 +8,7 @@ app.use(express.static(path.join(__dirname)));
 
 // Send the index.html file for any request
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'login.html'));
 });
 
 // Listen on the environment's port or port 3000
