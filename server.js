@@ -10,14 +10,24 @@ const pool = new Pool({
     connectionString: "postgresql://database_o1pk_user:OO0kTMxl4YgHvazGn7EU7sBwEXT1zv5c@dpg-cr2ffhbtq21c73f87klg-a/database_o1pk"
 });
 
-//app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname)));
 
-// Send the index.html file for any request
+app.post('/signup', async (req, res) => {
+    const {username, password } = req.body;
+
+    try {
+        const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [username, password]);
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Error registering user');
+    }
+}); 
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'login.html'));
 });
 
-// Listen on the environment's port or port 3000
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
