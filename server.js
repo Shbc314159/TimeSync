@@ -13,11 +13,9 @@ const pool = new Pool({
 app.use(express.static(path.join(__dirname)));
 
 app.post('/signup', async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
 
     try {
-        const result = await pool.query('INSERT INTO users (username, password) VALUES (?, ?) RETURNING id', [username, password]);
+        const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [req.body.username, req.body.password]);
         res.status(201).json(result.rows[0]);
     } catch (err) {
         res.status(500).send(err.message);
