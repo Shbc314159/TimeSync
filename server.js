@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const pool = new Pool({
     connectionString: "postgresql://database_o1pk_user:OO0kTMxl4YgHvazGn7EU7sBwEXT1zv5c@dpg-cr2ffhbtq21c73f87klg-a/database_o1pk"
@@ -16,7 +16,7 @@ app.post('/signup', async (req, res) => {
 
     try {
         const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [req.body.username, req.body.password]);
-        res.status(201).json(req.body.username);
+        res.status(201).json(result);
     } catch (err) {
         res.status(500).json(err.message);
     }
