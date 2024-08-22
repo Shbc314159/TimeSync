@@ -16,7 +16,7 @@ app.post('/signup', async (req, res) => {
 
     try {
         const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [req.body.username, req.body.password]);
-        res.status(201).json(req.body);
+        res.status(201).json(req.body.username);
     } catch (err) {
         res.status(500).json(err.message);
     }
@@ -29,4 +29,4 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-});
+});z
