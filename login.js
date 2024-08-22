@@ -9,7 +9,7 @@ function startsignup() {
 }
 
 async function signup(username, password) {
-    const response = await fetch('/signup', {
+    fetch('/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,15 +19,19 @@ async function signup(username, password) {
             password: password 
         })
     })
-
-    if (response.ok) { 
-        const data = await response.json();
-        console.log('User registered successfully:', data);
-        return data.id;
-    } else {
-        const errorData = await response.json();
-        if (errorData.error.includes('duplicate key value violates unique constraint')) {
-            alert('That password is already taken. Please choose a different one.');
+    .then(response => {
+        if (response.ok) { 
+            const data = response.json();
+            console.log('User registered successfully:', data);
+            return data.id;
+        } else {
+            const errorData = response.json();
+            if (errorData.error.includes('duplicate key value violates unique constraint')) {
+                alert('That password is already taken. Please choose a different one.');
+            }
         }
-    }
+    })
+    .catch(error => {
+        console.error('Error registering user:', error);
+    });
 };
