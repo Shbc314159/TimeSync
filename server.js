@@ -1,10 +1,16 @@
-// server.js
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
+const { Pool } = require('pg');
 const app = express();
 
-// Serve static files from the root directory
-app.use(express.static(path.join(__dirname)));
+app.use(bodyParser.json());
+
+const pool = new Pool({
+    connectionString: "postgresql://database_o1pk_user:OO0kTMxl4YgHvazGn7EU7sBwEXT1zv5c@dpg-cr2ffhbtq21c73f87klg-a/database_o1pk"
+});
+
+//app.use(express.static(path.join(__dirname)));
 
 // Send the index.html file for any request
 app.get('*', (req, res) => {
