@@ -16,9 +16,9 @@ app.post('/signup', async (req, res) => {
 
     try {
         const result = await pool.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [req.body.username, req.body.password]);
-        res.status(201).json(result);
+        res.status(201).json({id: result.rows[0].id});
     } catch (err) {
-        res.status(500).json(err.message);
+        res.status(500).json({error: err.message});
     }
 }); 
 
