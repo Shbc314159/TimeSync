@@ -7,13 +7,14 @@
     width: 100%;
     margin: 0px;
     padding: 3% 0%;
+    border-top: 0.25vh solid gray;
 }
 
 .navbar-item {
     display: inline;
-    padding: 0% 7vw;
+    padding: 0% 9.5vw;
 }
 
 .navbar-img {
-    width: 10vw;
+    width: 5vw;
 }
