@@ -1,7 +1,12 @@
 const form = document.getElementById('signup-form');
 form.addEventListener('submit', function(event) {
     event.preventDefault();
-
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+    const userid = signup(data.username, data.password);
 });
 
 async function signup(username, password) {
