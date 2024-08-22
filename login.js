@@ -8,6 +8,7 @@ form.addEventListener('submit', function(event) {
     });
     const userid = signup(data.username, data.password);
     setSessionCookie('userid', userid);
+    console.log(getCookie('userid'));
 });
 
 async function signup(username, password) {
@@ -29,5 +30,8 @@ async function signup(username, password) {
     } else {
         const errorData = await response.json();
         console.log(errorData.error);
+        if (errorData.error.includes('duplicate key value violates unique constraint')) {
+            alert('That password is already taken. Please choose a different one.');
+        }
     }
 };
