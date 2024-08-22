@@ -21,7 +21,7 @@ async function signup(username, password) {
         })
     })
 
-    if (response.ok) {
+    if (response.ok) { 
         const data = await response.json();
         console.log('User registered successfully:', data);
         return data.id;
