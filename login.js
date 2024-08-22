@@ -2,9 +2,9 @@ async function startsignup() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const userid = signup(username, password);
-    if (userid) {
+    if (userid != null) {
         setSessionCookie('userid', userid);
-        console.log(getSessionCookie('userid'));
+        console.log(getCookie('userid'));
     }
 }
 
