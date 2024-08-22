@@ -1,15 +1,15 @@
-async function startsignup() {
+function startsignup() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const userid = await signup(username, password);
+    const userid = signup(username, password);
     if (userid != null) {
-        await setSessionCookie('userid', userid);
-        console.log(await getCookie('userid'));
+        setSessionCookie('userid', userid);
+        console.log(getCookie('userid'));
     }
 }
 
-async function signup(username, password) {
-    const response = await fetch('/signup', {
+function signup(username, password) {
+    const response = fetch('/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,11 +21,11 @@ async function signup(username, password) {
     })
 
     if (response.ok) { 
-        const data = await response.json();
+        const data = response.json();
         console.log('User registered successfully:', data);
         return data.id;
     } else {
-        const errorData = await response.json();
+        const errorData = response.json();
         if (errorData.error.includes('duplicate key value violates unique constraint')) {
             alert('That password is already taken. Please choose a different one.');
         }
