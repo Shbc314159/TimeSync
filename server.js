@@ -20,8 +20,7 @@ app.post('/signup', async (req, res) => {
         const result = await pool.query('INSERT INTO users (username, password) VALUES (?, ?) RETURNING id', [username, password]);
         res.status(201).json(result.rows[0]);
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Error registering user');
+        res.status(500).send(err.message);
     }
 }); 
 
