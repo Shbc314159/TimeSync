@@ -1,0 +1,80 @@
+body {
+    background-color: black;
+    font-family: "Inter"
+}
+
+#login-form {
+    color: rgb(184, 184, 184);
+    text-align: center;
+    padding: 30vh 0%;
+}
+
+#line1 {
+    padding: 1vh 0%;
+}
+
+#username {
+    background-color: black;
+    border: 2px solid rgb(161, 161, 161);
+    margin: 0px;
+    border-radius: 5px;
+    margin-left: 3vw;
+    padding: 5px;
+    color: white;
+}
+
+#username:focus {
+    border: 0px;
+}
+
+#line2 {
+    padding: 2vh 0%;
+}
+
+#password {
+    background-color: black;
+    border: 2px solid rgb(160, 160, 160);
+    margin: 0px;
+    border-radius: 5px;
+    margin-left: 3vw;
+    padding: 5px;
+    color: white;
+}
+
+#password:focus {
+    border: 0px;
+}
+
+#buttons {
+    padding: 5vh 0%;
+}
+
+#signup {
+    color: rgb(255, 255, 255);
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 25px;
+    font-weight: 500;
+    background-color: #4681f4;
+    border: 2px solid rgb(90, 90, 90);
+    margin-right: 5vw;
+}
+
+#signup:hover {
+    background-color: #80669d
+}
+
+#login {
+    color: rgb(255, 255, 255);
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 25px;
+    font-weight: 500;
+    background-color: #3ea185;
+    border: 2px solid rgb(90, 90, 90);
+    margin-left: 5vw;
+}
+
+#login:hover {
+    background-color: #80669d
+}

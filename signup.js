@@ -1,16 +1,14 @@
-async function startlogin() {
+async function startsignup() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const userid = await login(username, password);
+    const userid = await signup(username, password);
     if (userid != null) {
         setSessionCookie('userid', userid);
-        console.log(getCookie('userid'));
-        window.location.pathname = "/calendar.html";
     }
 }
 
-async function login(username, password) {
-    const response = await fetch('/login', {
+async function signup(username, password) {
+    const response = await fetch('/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -23,10 +21,10 @@ async function login(username, password) {
 
     if (!response.ok) {
         const errorData = await response.json();
-        if (errorData.error.includes('Invalid credentials')) {
-            alert('The details you provided are incorrect.');
+        if (errorData.error.includes('duplicate key value violates unique constraint')) {
+            alert('That username is already taken. Please choose a different one.');
         } else {
-            alert('Error logging in user:', errorData.error);
+            alert('Error registering user:', errorData.error);
         }
         return null;
     };

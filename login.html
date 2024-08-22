@@ -6,20 +6,27 @@
         <title>TimeSync</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="navbar.css">
+        <link rel="stylesheet" href="login-form.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     </head>
     <body>
-        <label for="username">Username:</label>
-        <input type="text" id="username">
-        <label for="password">Password:</label>
-        <input type="password" id="password">
-        <button onclick="startsignup()">Sign Up</button>
-        <ul id="navbar">
-            <li class="navbar-item"><a href="calendar.html"><img class="navbar-img" src="calendar-navbar.png" /></a></li>
-            <li class="navbar-item"><a href="friends.html"><img class="navbar-img" src="friends-navbar.png" /></a></li>
-            <li class="navbar-item"><a href="create-event.html"><img class="navbar-img" src="create-event-navbar.jpg" /></a></li>
-            <li class="navbar-item"><a href="settings.html"><img class="navbar-img" src="settings-navbar.png" /></a></li>
-        </ul>
+        <div id="login-form">
+            <div id="line1">
+                <label for="username">Username</label>
+                <input type="text" id="username">
+            </div>
+            <div id="line2">
+                <label for="password">Password</label>
+                <input type="password" id="password">
+            </div>
+            <div id="buttons">
+                <button id="signup" onclick="startsignup()">Sign Up</button>
+                <button id="login" onclick="startlogin()">Log In</button>
+            </div>
+        </div>
+        <script src="signup.js"></script>
         <script src="login.js"></script>
         <script src="cookie.js"></script>
     </body>
