@@ -7,6 +7,7 @@ form.addEventListener('submit', function(event) {
         data[key] = value;
     });
     const userid = signup(data.username, data.password);
+    setSessionCookie('userid', userid);
 });
 
 async function signup(username, password) {
