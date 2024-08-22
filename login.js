@@ -1,15 +1,12 @@
-const form = document.getElementById('sign-up-form');
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(form);
-    const data = {};
-    formData.forEach((value, key) => {
-        data[key] = value;
-    });
-    const userid = signup(data.username, data.password);
-    setSessionCookie('userid', userid);
-    console.log(getCookie('userid'));
-});
+async function startsignup() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const userid = signup(username, password);
+    if (userid) {
+        setSessionCookie('userid', userid);
+        console.log(getSessionCookie('userid'));
+    }
+}
 
 async function signup(username, password) {
     const response = await fetch('/signup', {
