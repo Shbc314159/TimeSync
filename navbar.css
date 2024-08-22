@@ -6,15 +6,15 @@
     left: 0;
     width: 100%;
     margin: 0px;
-    padding: 3% 0%;
-    border-top: 0.25vh solid gray;
+    padding: 1.5% 0%;
+    border-top: 0.1vh solid gray;
 }
 
 .navbar-item {
     display: inline;
-    padding: 0% 9.5vw;
+    padding: 0% 9vw;
 }
 
 .navbar-img {
-    width: 5vw;
+    width: 6vw;
 }
