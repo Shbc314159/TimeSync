@@ -3,8 +3,8 @@ async function startsignup() {
     const password = document.getElementById('password').value;
     const userid = signup(username, password);
     if (userid != null) {
-        setSessionCookie('userid', userid);
-        console.log(getCookie('userid'));
+        await setSessionCookie('userid', userid);
+        console.log(await getCookie('userid'));
     }
 }
 
@@ -26,7 +26,6 @@ async function signup(username, password) {
         return data.id;
     } else {
         const errorData = await response.json();
-        console.log(errorData.error);
         if (errorData.error.includes('duplicate key value violates unique constraint')) {
             alert('That password is already taken. Please choose a different one.');
         }
