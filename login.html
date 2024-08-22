@@ -9,6 +9,13 @@
         <link rel="stylesheet" href="navbar.css">
     </head>
     <body>
+        <form action="/signup" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="Sign Up">
+        </form>
         <ul id="navbar">
             <li class="navbar-item"><a href="calendar.html"><img class="navbar-img" src="calendar-navbar.png" /></a></li>
             <li class="navbar-item"><a href="friends.html"><img class="navbar-img" src="friends-navbar.png" /></a></li>
