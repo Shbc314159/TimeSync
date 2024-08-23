@@ -8,7 +8,7 @@ function startsignup() {
     }
 }
 
-async function signup(username, password) {
+function signup(username, password) {
     fetch('/signup', {
         method: 'POST',
         headers: {
@@ -31,5 +31,6 @@ async function signup(username, password) {
         } else {
             console.error('Error registering user:', error);
         }
+        return null;
     });
 };
