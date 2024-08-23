@@ -2,6 +2,7 @@ function startsignup() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const userid = signup(username, password);
+    console.log(userid);
     if (userid != null) {
         setSessionCookie('userid', userid);
         console.log(getCookie('userid'));
