@@ -10,7 +10,7 @@ function startsignup() {
 }
 
 function signup(username, password) {
-    fetch('/signup', {
+    return fetch('/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ function signup(username, password) {
         });
     })
     .catch(error => {
-        console.error('Error registering user:', error);
+        alert('Error registering user:', error);
         return null;
     });
 };
