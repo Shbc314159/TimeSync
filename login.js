@@ -20,18 +20,16 @@ async function signup(username, password) {
         })
     })
     .then(response => {
-        if (response.ok) { 
-            const data = response.json();
-            console.log('User registered successfully:', data);
-            return data.id;
-        } else {
-            const errorData = response.json();
-            if (errorData.error.includes('duplicate key value violates unique constraint')) {
-                alert('That password is already taken. Please choose a different one.');
-            }
-        }
+        const data = response.json();
+        console.log('User registered successfully:', data);
+        return data.id;
     })
     .catch(error => {
-        console.error('Error registering user:', error);
+        const errorData = response.json();
+        if (errorData.error.includes('duplicate key value violates unique constraint')) {
+            alert('That password is already taken. Please choose a different one.');
+        } else {
+            console.error('Error registering user:', error);
+        }
     });
 };
