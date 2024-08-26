@@ -4,6 +4,7 @@ async function startsignup() {
     const userid = await signup(username, password);
     if (userid != null) {
         setSessionCookie('userid', userid);
+        window.location.pathname = "/calendar.html";
     }
 }
 

@@ -1,33 +1,46 @@
 <!DOCTYPE>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>TimeSync</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="login-form.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <div id="login-form">
-            <div id="line1">
-                <label for="username">Username</label>
-                <input type="text" id="username">
-            </div>
-            <div id="line2">
-                <label for="password">Password</label>
-                <input type="password" id="password">
-            </div>
-            <div id="buttons">
-                <button id="signup" onclick="startsignup()">Sign Up</button>
-                <button id="login" onclick="startlogin()">Log In</button>
-            </div>
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WPJ8DCJ6YV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-WPJ8DCJ6YV');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TimeSync</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="login-form.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="login-form">
+        <div id="line1">
+            <label for="username">Username</label>
+            <input type="text" id="username">
         </div>
-        <script src="signup.js"></script>
-        <script src="login.js"></script>
-        <script src="cookie.js"></script>
-    </body>
+        <div id="line2">
+            <label for="password">Password</label>
+            <input type="password" id="password">
+        </div>
+        <div id="buttons">
+            <button id="signup" onclick="startsignup()">Sign Up</button>
+            <button id="login" onclick="startlogin()">Log In</button>
+        </div>
+    </div>
+    <script src="signup.js"></script>
+    <script src="login.js"></script>
+    <script src="cookie.js"></script>
+</body>
+
 </html>
