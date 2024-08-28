@@ -9,20 +9,36 @@
     
             gtag('config', 'G-WPJ8DCJ6YV');
         </script>
+
+        <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>TimeSync Calendar</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+            rel="stylesheet">
         <link rel="stylesheet" href="navbar.css">
+        <link rel="stylesheet" href="calendar.css">
     </head>
-    <body>
+    <body onload="viewCalendar()">
+        <div id="calendar"></div>
         <ul id="navbar">
             <li class="navbar-item"><a href="calendar.html"><img class="navbar-img" src="calendar-navbar-blue.png" /></a></li>
             <li class="navbar-item"><a href="friends.html"><img class="navbar-img" src="friends-navbar.png" /></a></li>
             <li class="navbar-item"><a href="create-event.html"><img class="navbar-img" src="create-event-navbar.jpg" /></a></li>
             <li class="navbar-item"><a href="settings.html"><img class="navbar-img" src="settings-navbar.png" /></a></li>
         </ul>
-        <script src="calendar.js" async defer></script>
+        <script src="view_calendar.js" async defer></script>  
+        <script src="month-prev-next.js" async defer></script>
+        <script src="calendar-funcs.js" async defer></script>
+        <script src="display_calendar.js" type="module"></script>  
+        <script src="cookie.js" async defer></script>
     </body>
 </html>

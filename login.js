@@ -4,13 +4,13 @@ async function startlogin() {
     const userid = await login(username, password);
     if (userid != null) {
         setSessionCookie('userid', userid);
-        window.location.pathname = "/calendar.html";
+        window.location.pathname = "/calendar.html"; 
     }
 }
 
 async function login(username, password) {
     const response = await fetch('/login', {
-        method: 'POST',
+        method: 'POST', 
         headers: {
             'Content-Type': 'application/json'
         },

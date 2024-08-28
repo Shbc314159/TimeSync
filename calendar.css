@@ -1,0 +1,111 @@
+#title {
+    text-align: center;
+    color: white;
+    font-family: "Inter";
+    font-weight: 200;
+    margin: 0;
+    padding: 1vh 0vh;
+    background-color: #2e2e2e;
+}
+
+#top-bar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2e2e2e;
+    align-items: center;
+}
+
+#backmonthimg, #forwardmonthimg {
+    width: 3vh;
+    height: auto;
+}
+
+#backmonth, #forwardmonth {
+    background: none;
+    flex: 0;
+    padding: 5vw;
+    border: 0;
+}
+
+#calendar {
+    margin: 0;
+}
+
+body {
+    background-color: #3d3d3d;
+    margin: 0;
+    padding: 0;
+}
+
+#weekday-list {
+    list-style-type: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #2e2e2e; 
+    margin: 0;
+    padding: 0;
+
+}
+
+.weekday-title {
+    display: inline-block;
+    font-family: "Inter";
+    color: white;
+    font-weight: 200;
+    border-top: 1px solid #868686;
+    border-right: 1px solid #868686;
+    border-bottom: 1px solid #868686;
+    text-align: center;
+    padding: 0.5vh 0vh;
+}
+
+#calendar-box-container {
+    display: grid;
+    grid-template-columns: repeat(7, 14.284vw);
+    grid-template-rows: repeat(6, 13.4vh);
+    height: 80vh;
+}
+
+.calendar-box {
+    border-right: 1px solid #868686;
+    border-bottom: 1px solid #868686;
+    box-sizing: border-box;
+    overflow: hidden;
+    scrollbar-width: 0;
+}
+
+.boxnum {
+    color: white;
+    padding: 0.1vh 0vh 0vh 1vw;
+    margin: 0;
+    border: 0;
+    font-family: "Inter";
+    font-weight: 100;
+}
+
+.event {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 5px 0vw 0vh 1vw;
+    font-family: "Inter";
+    color: white;
+    padding: 3px;
+    border-radius: 5px 0px 0px 5px;
+    font-size: 15px;
+    width: 11.6vw;
+    position: fixed;
+}
+
+.blank-event {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 5px 0vw 0vh 0vw;
+    background-color: green;
+    padding: 12px 0px;
+    border-radius: 0px 5px 5px 0px;
+    margin-left: 0px;
+    font-size: 15px;
+    width: 56px;
+    position: absolute;
+}

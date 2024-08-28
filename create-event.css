@@ -1,0 +1,22 @@
+#title {
+    text-align: center;
+    color: white;
+    font-family: "Inter";
+    font-weight: 200;
+    margin: 0;
+    padding: 1vh 0vh;
+    background-color: #2e2e2e;
+}
+
+body {
+    background-color: #3d3d3d;
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family: "Inter";
+}
+
+#visible-friends-container {
+    overflow: scroll;
+    height: 10vh;
+}
