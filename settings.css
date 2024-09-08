@@ -1,0 +1,85 @@
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 15vw;
+    margin-right: 15vw;
+    height: 6vw;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+input:checked + .slider {
+    background-color: #6b21f3;
+}
+
+  
+input:checked + .slider:before {
+    -webkit-transform: translateX(9vw);
+    -ms-transform: translateX(9vw);
+    transform: translateX(9vw);
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .5s;
+    transition: .4s;
+    border-radius: 6vh;
+}
+  
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 4vw;
+    width: 4vw;
+    left: 1vw;
+    bottom: 1vw;
+    background-color: white;
+    -webkit-transition: .5s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+body {
+    background-color: #3d3d3d;
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family: "Inter";
+    text-align: center;
+}
+
+#title {
+    text-align: center;
+    font-weight: 200;
+    margin: 0;
+    padding: 1vh 0vh;
+    background-color: #2e2e2e;
+}
+
+#visible-div {
+    display: flex;
+    justify-items: auto;
+}
+
+#visible-div p {
+    flex: 1;
+    flex-basis: 65vw;
+    margin-left: 10vw;
+}
+
+#visible-div label {
+    margin-top: 15px;
+    flex: 1;
+    flex-basis: 15vw;
+    margin-right: 15vw;
+}

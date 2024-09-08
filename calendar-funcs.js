@@ -1,8 +1,9 @@
-function makeElementWider(id) {
+function widenElement(id) {
     let element = document.getElementById(`blank-event-${id}`);
     if (!element) {
         element = document.getElementById(`event${id}`);
     }
+
     const currentWidth = parseFloat(getComputedStyle(element).width);
     const additionalWidth = 59.2;
     element.style.width = `${currentWidth + additionalWidth}px`;
@@ -23,8 +24,13 @@ function wrapToNextLine(id, currentboxnum, numpixels) {
         element = otherLine;
         var randomNumber = Math.floor(Math.random() * 9000000) + 1000000;
         otherLine.id = `blank-event-${id}-${randomNumber}`;
+        element = document.getElementById(`blank-event-${id}-${randomNumber}`);
+        const currentWidth = parseFloat(getComputedStyle(element).width);
+        element.style.width = `${currentWidth + 2.875}px`;
     } else {
-        element = originalLine;
+        element = originalLine; 
+        const currentWidth = parseFloat(getComputedStyle(element).width);
+        element.style.width = `${currentWidth + 1}px`;
     }
 
     var currentRadius = window.getComputedStyle(element).borderRadius;
@@ -38,9 +44,6 @@ function wrapToNextLine(id, currentboxnum, numpixels) {
 
     element.style.borderRadius = `${radiusValues[0]} 0 0 ${radiusValues[3]}`;
 
-    const currentWidth = parseFloat(getComputedStyle(element).width);
-    element.style.width = `${currentWidth + 1}px`;
-
     newLine.id = `blank-event-${id}`
     newLine.className = "blank-event";
     newLine.style.marginTop = `${numpixels}px`;
@@ -48,7 +51,15 @@ function wrapToNextLine(id, currentboxnum, numpixels) {
     box.appendChild(newLine);
 }
 
-const colors = ['#E94E77', '#4CAF50', '#2979FF', '#FFC107', '#7E57C2', '#F50057', '#FF6F00', '#FF8A65', '#009688', '#5C6BC0'];
+const colors = [
+    // Warm and muted colors
+    '#E94E77', // Muted red
+    '#4CAF50', // Muted green
+    '#2979FF', // Muted blue
+    '#6A5ACD', // Muted purple
+    '#f5be1b', // Muted yellow
+    '#b03aa0', // More reddish muted pink
+  ];
 
 function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];

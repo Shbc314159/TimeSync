@@ -1,4 +1,50 @@
-async function loadFriendOptions() {
+async function viewEvent() {
+    eventid = getCookie('eventid');
+
+    const response = await fetch('/getEventInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            eventid: eventid
+        })
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        alert('Error fetching event info:', errorData.error);
+    }
+
+    const data = await response.json();
+
+    let nameElement = document.querySelector('#name-input');
+    let idElement = document.querySelector('#id');
+    let descriptionElement = document.querySelector('#description-input');
+    let startElement = document.querySelector('#start-input');
+    let endElement = document.querySelector('#end-input');
+    let repeatsElement = document.querySelector('#repeat-input');
+
+    let visible = [];
+    let added = [];
+    for (let friend of data.visibleFriends) {
+        visible.push(friend.username);
+    }
+    for (let friend of data.addedFriends) {
+        added.push(friend.username);
+    }
+
+    idElement.textContent = 'Event' + ' ' + '#' + eventid;
+    nameElement.value = data.result.name;
+    descriptionElement.value = data.result.description;
+    startElement.value = new Date(data.result.start_time).toISOString().slice(0, 16);
+    endElement.value = new Date(data.result.end_time).toISOString().slice(0, 16);
+    repeatsElement.selectedIndex = parseInt(data.result.repeats);
+    loadFriendOptions(added);
+    loadVisibleFriends(visible);
+}
+
+async function loadFriendOptions(friendsAdded) {
     const addUsersInput = document.getElementById('addedUsers-input');
     const userid = getCookie('userid');
 
@@ -18,53 +64,34 @@ async function loadFriendOptions() {
     }
 
     const data = await response.json();
+    let list = document.getElementById('added-users-list');
 
-    for (const dataRow of data) {
+    for (let i = 0; i < data.length; i++) {
+
+        for (let j = 0; j < friendsAdded.length; j++) {
+            friend1 = data[i][1];
+            friend2 = friendsAdded[j];
+            if (friend1 == friend2) {
+                const element = document.createElement('li');
+                element.textContent = friend1;
+                list.appendChild(element);
+                list.style.border = "2px solid rgb(0, 191, 255)";
+                matchFound = true;
+                break;
+            }
+        }
+
         const option = document.createElement('option');
-        option.value = dataRow[0];
-        option.textContent = dataRow[1];
+        option.value = data[i][0];
+        option.textContent = data[i][1];
         addUsersInput.appendChild(option);
-    };
+    }
+
     setSessionCookie2dArr('friends', data);
-    loadVisibleFriends();
 }
 
-async function loadVisibleFriends() {
-    const friends = getCookie('friends');
-    const userid = getCookie('userid');
-    const container = document.getElementById('visible-friends-container');
-
-    const response = await fetch('/getVisible', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            userid: userid
-        })
-    });
-
-    if (!response.ok) {
-        const errorData = await response;
-        alert('Error fetching friends:', errorData.error);
-    }
-
-    const eventsVisible = await response.json();
-
-    for (const friend of friends) {
-        const outerDiv = document.createElement('div');
-        const element = document.createElement('p');
-        element.textContent = friend[1];
-        element.className = 'friend-name';
-        outerDiv.appendChild(element);
-        const check = document.createElement('input');
-        check.type = 'checkbox';
-        check.className = 'friend-checkbox';
-        eventsVisible.eventsVisible ? check.checked = true : check.checked = false;
-        outerDiv.appendChild(check);
-        container.appendChild(outerDiv);
-    }
-    
+function goHome() {
+    document.location.href = '/view_day.html';
 }
 
 function addFriend() {
@@ -114,7 +141,62 @@ function removeFriend() {
     }
 }
 
-async function createNewEvent() {
+async function loadVisibleFriends(visibleFriends) {
+    const friends = getCookie('friends');
+    const container = document.getElementById('visible-friends-container');
+
+    for (const friend of friends) {
+        let visible = false;
+        const outerDiv = document.createElement('div');
+        const element = document.createElement('p');
+        element.textContent = friend[1];
+        element.className = 'friend-name';
+        outerDiv.appendChild(element);
+        const check = document.createElement('input');
+        check.type = 'checkbox';
+        check.className = 'friend-checkbox';
+        for (const visibleFriend of visibleFriends) {
+            if (friend[1] == visibleFriend) {
+                visible = true;
+                break;
+            }
+        }
+        visible ? check.checked = true : check.checked = false;
+        outerDiv.appendChild(check);
+        container.appendChild(outerDiv);
+    }
+    
+}
+
+async function deleteEvent() {
+    eventid = getCookie('eventid');
+    const response = await fetch('/deleteEvent', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            eventid: eventid
+        })
+    });
+
+    if (!response.ok) {
+        const errorData = await response;
+        alert('Error deleting event:', errorData.error);
+    } else {
+        await response;
+        alert('Event deleted successfully');
+        window.location.href = './view_day.html';
+    }
+}
+
+async function saveEvent() {
+    createEvent();
+    alert('Event saved successfully');
+}
+
+async function createEvent() {
+    const ogeventid = getCookie('eventid');
     const userid = getCookie('userid');
     const eventName = document.getElementById('name-input').value;
     const eventDescription = document.getElementById('description-input').value;
@@ -176,7 +258,7 @@ async function createNewEvent() {
     if (startTime > endTime) {
         alert('Please ensure the start time is before the end time.');
         return;
-    } 
+    }
 
     const response = await fetch('/createevent', {
         method: 'POST',
@@ -214,8 +296,20 @@ async function createNewEvent() {
             }
         }
 
-        alert('Event created successfully!');
-        location.reload();
+        const response2 = await fetch('/deleteEvent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventid: ogeventid
+            })
+        });
+    
+        if (!response2.ok) {
+            const errorData = await response;
+            alert('Error deleting event:', errorData.error);
+        }
     }
 }
 

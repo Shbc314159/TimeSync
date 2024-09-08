@@ -136,11 +136,12 @@ app.post('/createevent', async (req, res) => {
         const repeats = req.body.repeats;
         const addedFriends = req.body.addedFriends;
         const visibleFriends = req.body.visibleFriends;
+        const og_id = req.body.og_id;
 
         const eventid = await pool.query(`
-            INSERT INTO events (userID, name, description, start_time, end_time, repeats)
-            VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-            [userid, eventName, eventDescription, startTime, endTime, repeats]
+            INSERT INTO events (userID, name, description, start_time, end_time, repeats, og_id)
+            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+            [userid, eventName, eventDescription, startTime, endTime, repeats, og_id]
         );
 
         for (let friendID of addedFriends) {
@@ -159,7 +160,113 @@ app.post('/createevent', async (req, res) => {
             );
         }
 
-        res.json({message: 'Event created successfully'});
+        res.json({message: 'Event created successfully', id: eventid.rows[0].id});
+    }
+
+    catch (err) {
+        res.status(500).json({error: err.message});
+    } 
+});
+
+app.post('/getVisible', async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const result = await pool.query(`
+            SELECT eventsVisible
+            FROM users WHERE id = $1`,
+            [userid]
+        );
+        res.json({ eventsVisible: result.rows[0].eventsvisible });
+    }
+    catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+app.post('/switchVisible', async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const result = await pool.query(`
+            UPDATE users
+            SET eventsVisible = NOT eventsVisible
+            WHERE id = $1`,
+            [userid]
+        );
+
+        res.json(result);
+    }
+    catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+app.post('/calendarDayView', async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const month = req.body.month;
+        const year = req.body.year;
+        const day = req.body.day;
+        const day_start = new Date(year, month, day, 0, 0, 0);
+        const day_end = new Date(year, month, day, 23, 59, 59);
+
+        const result = await pool.query(`
+            SELECT id, name, start_time, end_time
+            FROM events WHERE userID = $1
+            AND end_time > $2
+            AND start_time < $3`,
+            [userid, day_start, day_end]
+        );
+
+        const addedeventids = await pool.query(`SELECT eventID FROM usersAddedToEvents WHERE userID = $1`, [userid]);
+        for (let row of addedeventids.rows) {
+            const id = row.eventid;
+            let data = await pool.query(`
+                SELECT id, name, start_time, end_time 
+                FROM events WHERE id = $1
+                AND end_time > $2
+                AND start_time < $3`,
+                [id, day_start, day_end] 
+            );
+
+            if (data.rows.length > 0) {
+                result.rows.push(...data.rows);
+            }
+        }
+
+        res.json(result.rows);
+    }
+    catch (err) {
+        res.status(500).json({error: err.message}); 
+    }
+});
+
+app.post('/getEventInfo', async (req, res) => {
+    try {
+        const eventid = req.body.eventid;
+
+        const result = await pool.query(`
+            SELECT name, description, start_time, end_time, repeats
+            FROM events WHERE id = $1`,
+            [eventid]
+        );
+
+        const visibleFriends = await pool.query(`
+            SELECT u.id, u.username
+            FROM eventsVisibleToUsers evu
+            JOIN users u ON evu.userID = u.id
+            WHERE evu.eventID = $1`,
+            [eventid]
+        );
+
+        const addedFriends = await pool.query(`
+            SELECT u.id, u.username
+            FROM usersAddedToEvents uae
+            JOIN users u ON uae.userID = u.id
+            WHERE uae.eventID = $1`,
+            [eventid]
+        );
+
+        res.json({result: result.rows[0], visibleFriends: visibleFriends.rows, addedFriends: addedFriends.rows});
     }
 
     catch (err) {
@@ -167,6 +274,50 @@ app.post('/createevent', async (req, res) => {
     }
 });
 
+app.post('/deleteEvent', async (req, res) => {
+    try {
+        const eventid = req.body.eventid;
+        const eventResult = await pool.query(`
+            SELECT repeats, og_id, start_time FROM events WHERE id = $1
+        `, [eventid]);
+
+        const event = eventResult.rows[0];
+        let originalId = event.og_id || eventid;
+
+        if (event.repeats > 0) {
+            await pool.query(`
+                DELETE FROM usersAddedToEvents WHERE eventID IN (
+                    SELECT id FROM events WHERE og_id = $1 AND start_time > $2)
+            `, [originalId, event.start_time]);
+
+            await pool.query(`
+                DELETE FROM eventsVisibleToUsers WHERE eventID IN (
+                    SELECT id FROM events WHERE og_id = $1 AND start_time > $2)
+            `, [originalId, event.start_time]);
+
+            await pool.query(`
+                DELETE FROM events WHERE og_id = $1 AND start_time > $2
+            `, [originalId, event.start_time]);
+        }
+
+        const query2 = await pool.query(`
+            DELETE FROM usersAddedToEvents WHERE eventID = $1`,
+            [eventid]
+        );
+        const query3 = await pool.query(`
+            DELETE FROM eventsVisibleToUsers WHERE eventID = $1`,
+            [eventid]
+        );
+        const query1 = await pool.query(`
+            DELETE FROM events WHERE id = $1`,
+            [eventid]
+        );
+        res.json({message: 'Event deleted successfully'});
+    }
+    catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'login.html'));

@@ -6,7 +6,7 @@ body {
 #login-form {
     color: rgb(184, 184, 184);
     text-align: center;
-    padding: 30vh 0%;
+    padding: 30vh 0%; 
 }
 
 #line1 {
@@ -24,7 +24,8 @@ body {
 }
 
 #username:focus {
-    border: 0px;
+    outline: 0px;
+    box-shadow: 0 0 10px blue;
 }
 
 #line2 {
@@ -42,7 +43,8 @@ body {
 }
 
 #password:focus {
-    border: 0px;
+    outline: 0px;
+    box-shadow: 0 0 10px blue;
 }
 
 #buttons {

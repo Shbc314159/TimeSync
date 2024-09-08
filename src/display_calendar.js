@@ -7,19 +7,24 @@ function Title({ text }) {
 function BoxNumber({ firstDay, boxnum, numDays }) {
     if (boxnum >= firstDay && boxnum < numDays + firstDay) {
         return <p className="boxnum">{boxnum - firstDay + 1}</p>
+    } else if (boxnum < firstDay) {
+        return <p className="boxnum" style={{opacity: "0%"}}>Space</p>
     }
 }
 
-function Events({ data, boxnum, firstDay, longEvents, lines }) {
+function Events({ data, boxnum, firstDay, longEvents, lines, eventsNotDisplayed }) {
     const monthDay = boxnum - firstDay + 1;
     const startDay = new Date(year, month, monthDay, 0, 0, 0,);
     const endDay = new Date(year, month, monthDay, 23, 59, 59);
-    const endTomorrow = new Date(year, month, monthDay + 1, 23, 59, 59);
     const eventElements = [];
-    let hooksToRun = [];
 
 
     for (let event of data) {
+        let k = eventsNotDisplayed.indexOf(event.id);
+        if (k != -1) {
+            continue;
+        }
+
         const startTime = new Date(event.start_time);
         const endTime = new Date(event.end_time);
         let add = true;
@@ -38,7 +43,9 @@ function Events({ data, boxnum, firstDay, longEvents, lines }) {
                 if (event.id == longevent.id) {
                     if (new Date(longevent.end_time) < endDay) { // if the long event ends today it must be removed from the list
                         longEvents.splice(longEvents.indexOf(longevent), 1);
-                        hooksToRun.push(() => shortenElement(event.id));
+                        React.useEffect(() => {
+                            shortenElement(longevent.id);
+                        }, []);
                     }
                     add = false;
                     break;
@@ -47,6 +54,8 @@ function Events({ data, boxnum, firstDay, longEvents, lines }) {
 
             if (add) { // this bit is if the event starts on this day
                 for (let i = 0; i < lines.length; i++) {
+                    if (event.id == 300 || event.id == 303) {
+                    }
                     if (lines[i] == null) {
                         lines[i] = event;
                         break;
@@ -55,8 +64,11 @@ function Events({ data, boxnum, firstDay, longEvents, lines }) {
                 let index = lines.indexOf(event);
                 let numpixels = index * 30 + 2;
                 let color = getRandomColor();
-                if (index < 3) {
+                if (index < 3 && index > -1) {
                     eventElements.push(<p key={event.id} id={`event${event.id}`} className="event" style={{marginTop: `${numpixels}px`, backgroundColor: `${color}`}}>{event.name}</p>);
+                } else {
+                    eventsNotDisplayed.push(event.id);
+                    continue;
                 }
             };
 
@@ -65,17 +77,17 @@ function Events({ data, boxnum, firstDay, longEvents, lines }) {
                 if (startDay.getDay() === 0) {
                     let index = lines.indexOf(event);
                     let numpixels = index * 30 + 2;
-                    hooksToRun.push(() => wrapToNextLine(event.id, boxnum, numpixels));
+                    React.useEffect(() => {
+                        wrapToNextLine(event.id, boxnum, numpixels);
+                    }, []);
                 } else {
-                    hooksToRun.push(() => makeElementWider(event.id));
+                    React.useEffect(() => {
+                        widenElement(event.id);
+                    }, []);
                 }
             }
         }
     }
-
-    React.useEffect(() => {
-        hooksToRun.forEach(runHook => runHook());
-    }, [hooksToRun]);
 
     return eventElements;
 }
@@ -89,19 +101,20 @@ function CalendarBoxes({data}) {
     let firstDay = new Date(year, month, 1).getDay() - 1;
     firstDay < 0 ? firstDay += 7 : null;
     const numDays = new Date(year, month + 1, 0).getDate();
-    let lines = Array(10).fill(null); //can't have more than 100 events in one day
+    let lines = Array(3).fill(null);
+    let eventsNotDisplayed = [];
 
     for (let i = 0; i < numBoxes; i++) {
         const style = (i + 1) % 7 === 0 ? { borderRight: 0 } : {};
         boxes.push(
             <div key={i} className="calendar-box" style={style} id={`calendar-box${i}`}>
                 <BoxNumber firstDay={firstDay} boxnum={i} numDays={numDays}/>
-                <Events data={data} boxnum={i} firstDay={firstDay} longEvents={longEvents} lines={lines}/>
+                <Events data={data} boxnum={i} firstDay={firstDay} longEvents={longEvents} lines={lines} eventsNotDisplayed={eventsNotDisplayed}/>
             </div>
         );
     }
     return <div id="calendar-box-container">{boxes}</div>;
-}
+} 
 
 function displayCalendar(data) {
     if (root == null) {

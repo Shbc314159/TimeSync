@@ -21,6 +21,12 @@ function BoxNumber(_ref2) {
             { className: "boxnum" },
             boxnum - firstDay + 1
         );
+    } else if (boxnum < firstDay) {
+        return React.createElement(
+            "p",
+            { className: "boxnum", style: { opacity: "0%" } },
+            "Space"
+        );
     }
 }
 
@@ -29,16 +35,20 @@ function Events(_ref3) {
         boxnum = _ref3.boxnum,
         firstDay = _ref3.firstDay,
         longEvents = _ref3.longEvents,
-        lines = _ref3.lines;
+        lines = _ref3.lines,
+        eventsNotDisplayed = _ref3.eventsNotDisplayed;
 
     var monthDay = boxnum - firstDay + 1;
     var startDay = new Date(year, month, monthDay, 0, 0, 0);
     var endDay = new Date(year, month, monthDay, 23, 59, 59);
-    var endTomorrow = new Date(year, month, monthDay + 1, 23, 59, 59);
     var eventElements = [];
-    var hooksToRun = [];
 
     var _loop = function _loop(event) {
+        var k = eventsNotDisplayed.indexOf(event.id);
+        if (k != -1) {
+            return "continue";
+        }
+
         var startTime = new Date(event.start_time);
         var endTime = new Date(event.end_time);
         var add = true;
@@ -53,6 +63,20 @@ function Events(_ref3) {
         }
 
         if (endTime > startDay && startTime < endDay) {
+            var _loop2 = function _loop2(longevent) {
+                if (event.id == longevent.id) {
+                    if (new Date(longevent.end_time) < endDay) {
+                        // if the long event ends today it must be removed from the list
+                        longEvents.splice(longEvents.indexOf(longevent), 1);
+                        React.useEffect(function () {
+                            shortenElement(longevent.id);
+                        }, []);
+                    }
+                    add = false;
+                    return "break";
+                }
+            };
+
             var _iteratorNormalCompletion2 = true;
             var _didIteratorError2 = false;
             var _iteratorError2 = undefined;
@@ -61,17 +85,9 @@ function Events(_ref3) {
                 for (var _iterator2 = longEvents[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                     var longevent = _step2.value;
 
-                    if (event.id == longevent.id) {
-                        if (new Date(longevent.end_time) < endDay) {
-                            // if the long event ends today it must be removed from the list
-                            longEvents.splice(longEvents.indexOf(longevent), 1);
-                            hooksToRun.push(function () {
-                                return shortenElement(event.id);
-                            });
-                        }
-                        add = false;
-                        break;
-                    }
+                    var _ret2 = _loop2(longevent);
+
+                    if (_ret2 === "break") break;
                 }
             } catch (err) {
                 _didIteratorError2 = true;
@@ -91,6 +107,7 @@ function Events(_ref3) {
             if (add) {
                 // this bit is if the event starts on this day
                 for (var _i = 0; _i < lines.length; _i++) {
+                    if (event.id == 300 || event.id == 303) {}
                     if (lines[_i] == null) {
                         lines[_i] = event;
                         break;
@@ -99,12 +116,15 @@ function Events(_ref3) {
                 var index = lines.indexOf(event);
                 var numpixels = index * 30 + 2;
                 var color = getRandomColor();
-                if (index < 3) {
+                if (index < 3 && index > -1) {
                     eventElements.push(React.createElement(
                         "p",
                         { key: event.id, id: "event" + event.id, className: "event", style: { marginTop: numpixels + "px", backgroundColor: "" + color } },
                         event.name
                     ));
+                } else {
+                    eventsNotDisplayed.push(event.id);
+                    return "continue";
                 }
             };
 
@@ -114,13 +134,13 @@ function Events(_ref3) {
                 if (startDay.getDay() === 0) {
                     var _index = lines.indexOf(event);
                     var _numpixels = _index * 30 + 2;
-                    hooksToRun.push(function () {
-                        return wrapToNextLine(event.id, boxnum, _numpixels);
-                    });
+                    React.useEffect(function () {
+                        wrapToNextLine(event.id, boxnum, _numpixels);
+                    }, []);
                 } else {
-                    hooksToRun.push(function () {
-                        return makeElementWider(event.id);
-                    });
+                    React.useEffect(function () {
+                        widenElement(event.id);
+                    }, []);
                 }
             }
         }
@@ -134,7 +154,9 @@ function Events(_ref3) {
         for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var event = _step.value;
 
-            _loop(event);
+            var _ret = _loop(event);
+
+            if (_ret === "continue") continue;
         }
     } catch (err) {
         _didIteratorError = true;
@@ -151,12 +173,6 @@ function Events(_ref3) {
         }
     }
 
-    React.useEffect(function () {
-        hooksToRun.forEach(function (runHook) {
-            return runHook();
-        });
-    }, [hooksToRun]);
-
     return eventElements;
 }
 
@@ -171,7 +187,8 @@ function CalendarBoxes(_ref4) {
     var firstDay = new Date(year, month, 1).getDay() - 1;
     firstDay < 0 ? firstDay += 7 : null;
     var numDays = new Date(year, month + 1, 0).getDate();
-    var lines = Array(10).fill(null); //can't have more than 100 events in one day
+    var lines = Array(3).fill(null);
+    var eventsNotDisplayed = [];
 
     for (var i = 0; i < numBoxes; i++) {
         var style = (i + 1) % 7 === 0 ? { borderRight: 0 } : {};
@@ -179,7 +196,7 @@ function CalendarBoxes(_ref4) {
             "div",
             { key: i, className: "calendar-box", style: style, id: "calendar-box" + i },
             React.createElement(BoxNumber, { firstDay: firstDay, boxnum: i, numDays: numDays }),
-            React.createElement(Events, { data: data, boxnum: i, firstDay: firstDay, longEvents: longEvents, lines: lines })
+            React.createElement(Events, { data: data, boxnum: i, firstDay: firstDay, longEvents: longEvents, lines: lines, eventsNotDisplayed: eventsNotDisplayed })
         ));
     }
     return React.createElement(
