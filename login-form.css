@@ -6,11 +6,29 @@ body {
 #login-form {
     color: rgb(184, 184, 184);
     text-align: center;
-    padding: 30vh 0%; 
+    padding: 2vh 0%; 
 }
 
 #line1 {
     padding: 1vh 0%;
+}
+
+h1 {
+    color: white;
+    font-size: 4vh;
+    font-weight: bold;
+    margin-bottom: 2vh;
+}
+
+p {
+    color: rgb(184, 184, 184);
+    font-size: 2.5vh;
+    margin-bottom: 4vh;
+    font-weight: 300;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 8vh;
 }
 
 #username {
@@ -48,7 +66,9 @@ body {
 }
 
 #buttons {
-    padding: 5vh 0%;
+    padding-top: 2vh;
+    padding-bottom: 10vh;
+
 }
 
 #signup {
@@ -79,4 +99,9 @@ body {
 
 #login:hover {
     background-color: #80669d
+}
+
+img {
+    width: 15vh;
+    height: 15vh;
 }

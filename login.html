@@ -11,9 +11,9 @@
     </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TimeSync Friends And Family Calendar Tracker</title>
+    <title>TimeSync Shared Calendar Tracker</title>
     <meta name="description" content="Create, view and edit events on your own personal calendar and keep track of what your friends and family are up to. Completely online and free">
-    <meta name="keywords" content="calendar, online, free, friends, family">
+    <meta name="keywords" content="calendar, online, free, friends, family, shared">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="login-form.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,10 +21,13 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
+    <link rel="icon" href="/icon.png" type="image/x-icon">
 </head>
 
 <body>
     <div id="login-form">
+        <h1>TimeSync</h1>
+        <p>Create, view and edit events on your own personal calendar and keep track of what your friends and family are up to</p>
         <div id="line1">
             <label for="username">Username</label>
             <input type="text" id="username">
@@ -37,7 +40,9 @@
             <button id="signup" onclick="startsignup()">Sign Up</button>
             <button id="login" onclick="startlogin()">Log In</button>
         </div>
+        <img src="icon.png"/>
     </div>
+
     <script src="signup.js"></script>
     <script src="login.js"></script>
     <script src="cookie.js"></script>

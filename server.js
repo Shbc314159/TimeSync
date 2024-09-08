@@ -19,6 +19,7 @@ const pool = new Pool({
     connectionString: "postgresql://database_o1pk_user:OO0kTMxl4YgHvazGn7EU7sBwEXT1zv5c@dpg-cr2ffhbtq21c73f87klg-a/database_o1pk"
 });
 
+
 app.use(express.static(path.join(__dirname)));
 
 app.post('/signup', async (req, res) => {
