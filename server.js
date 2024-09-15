@@ -169,6 +169,55 @@ app.post('/createevent', async (req, res) => {
     } 
 });
 
+app.post('/createrepeatedevent', async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const eventName = req.body.eventName;
+        const eventDescription = req.body.eventDescription;
+        const startTimes = req.body.startTimes;
+        const endTimes = req.body.endTimes;
+        const repeats = req.body.repeats;
+        const addedFriends = req.body.addedFriends;
+        const visibleFriends = req.body.visibleFriends;
+        const og_id = req.body.og_id;
+
+        const eventIds = [];
+
+        for (let i = 0; i < startTimes.length; i++) {
+            const eventid = await pool.query(`
+                INSERT INTO events (userID, name, description, start_time, end_time, repeats, og_id)
+                VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+                [userid, eventName, eventDescription, startTimes[i], endTimes[i], repeats, og_id]
+            );
+
+            eventIds.push(eventid.rows[0].id);
+
+            // Add friends to usersAddedToEvents table
+            for (let friendID of addedFriends) {
+                await pool.query(`
+                    INSERT INTO usersAddedToEvents (userID, eventID)
+                    VALUES ($1, $2)`,
+                    [friendID, eventid.rows[0].id]
+                );
+            }
+
+            // Make the event visible to friends in eventsVisibleToUsers table
+            for (let friendID of visibleFriends) {
+                await pool.query(`
+                    INSERT INTO eventsVisibleToUsers (userID, eventID)
+                    VALUES ($1, $2)`,
+                    [friendID, eventid.rows[0].id]
+                );
+            }
+        }
+
+        res.json({ message: 'Events created successfully', eventIds });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.post('/getVisible', async (req, res) => {
     try {
         const userid = req.body.userid;

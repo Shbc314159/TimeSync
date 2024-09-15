@@ -203,15 +203,7 @@ async function createNewEvent() {
         const response1 = await response.json();
         const og_id = response1.id;
         if (repeats != 0) {
-            addedDays = 0
-            while (addedDays < 1000) {
-                addedDays += repeats;
-                let startTime = new Date(document.getElementById('start-input').value);
-                let endTime = new Date(document.getElementById('end-input').value);
-                let newStartTime = new Date(startTime.setDate(startTime.getDate() + addedDays));
-                let newEndTime = new Date(endTime.setDate(endTime.getDate() + addedDays));
-                await createEventWithData(userid, eventName, eventDescription, newStartTime.toISOString(), newEndTime.toISOString(), repeats, addedFriends, visibleFriends, og_id);
-            }
+            let repeatsCreated = await createRepeatedEvents(userid, eventName, eventDescription, new Date(startTime), new Date(endTime), repeats, addedFriends, visibleFriends, og_id);
         }
 
         alert('Event created successfully!');
@@ -219,8 +211,17 @@ async function createNewEvent() {
     }
 }
 
-async function createEventWithData(userid, eventName, eventDescription, startTime, endTime, repeats, addedFriends, visibleFriends, og_id=null) {
-    const response = await fetch('/createevent', {
+async function createRepeatedEvents(userid, eventName, eventDescription, startTime, endTime, repeats, addedFriends, visibleFriends, og_id) {
+    let startTimes = []
+    let endTimes = []  
+    for (let i = 0; i < 100; i++) {
+        let newStartTime = new Date(startTime.setDate(startTime.getDate() + repeats));
+        let newEndTime = new Date(endTime.setDate(endTime.getDate() + repeats));
+        startTimes.push(newStartTime.toISOString());
+        endTimes.push(newEndTime.toISOString());
+    }
+
+    const response = await fetch('/createrepeatedevent', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -229,12 +230,20 @@ async function createEventWithData(userid, eventName, eventDescription, startTim
             userid: userid,
             eventName: eventName,
             eventDescription: eventDescription,
-            startTime: startTime,
-            endTime: endTime,
+            startTimes: startTimes,
+            endTimes: endTimes,
             repeats: repeats,
             addedFriends: addedFriends,
             visibleFriends: visibleFriends,
             og_id: og_id
         })
     });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        alert('Error creating event:', errorData.error);
+        return 1;
+    } else {
+        return 0;
+    }
 }
