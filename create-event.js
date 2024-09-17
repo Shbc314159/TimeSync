@@ -203,6 +203,7 @@ async function createNewEvent() {
         const response1 = await response.json();
         const og_id = response1.id;
         if (repeats != 0) {
+            alert('Please wait a few seconds for all future events to be created.');
             let repeatsCreated = await createRepeatedEvents(userid, eventName, eventDescription, new Date(startTime), new Date(endTime), repeats, addedFriends, visibleFriends, og_id);
         }
 

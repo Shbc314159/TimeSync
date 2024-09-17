@@ -98,10 +98,10 @@ app.post('/getfriends', async (req, res) => {
             FROM friends WHERE user2ID = $1`,
             [userid]
         );
-        
+    
         const friendIDs = [
             ...result1.rows.map(row => parseInt(row.user2id)),
-            ...result2.rows.map(row => parseInt(row.user2id))
+            ...result2.rows.map(row => parseInt(row.user1id))
         ];
 
         const friendUsernames = [];
@@ -365,6 +365,67 @@ app.post('/deleteEvent', async (req, res) => {
         res.json({message: 'Event deleted successfully'});
     }
     catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+app.post('/getrequests', async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const result = await pool.query(`
+            SELECT u.id, u.username
+            FROM friendshipRequests fr
+            JOIN users u ON fr.userAskId = u.id
+            WHERE fr.userAnswerId = $1`,
+            [userid]
+        );
+        res.json({requests: result.rows});
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+app.post('/requestfriend', async (req, res) => {
+    try {
+        const userAskId = req.body.userid;
+        const userAnswerId = req.body.friendid;
+        const currentFriends = await pool.query(`
+            SELECT COUNT(*) FROM friends
+            WHERE (user1id = $1 AND user2id = $2) OR (user1id = $2 AND user2id = $1)`,
+            [userAskId, userAnswerId]
+        );
+          
+        if (parseInt(currentFriends.rows[0].count) > 0) {
+            return res.status(700).json({ error: 'Already friends' });
+        }
+
+        const result = await pool.query(`
+            INSERT INTO friendshipRequests (userAskId, userAnswerId)
+            VALUES ($1, $2)`,
+            [userAskId, userAnswerId]
+        );
+
+        res.json({message: 'Friend request sent successfully'});
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
+
+app.post('/acceptrequest', async (req, res) => {
+    try {
+        const userAskId = req.body.friendid;
+        const userAnswerId = req.body.userid;
+        const result = await pool.query(`
+            DELETE FROM friendshipRequests WHERE userAskId = $1 AND userAnswerId = $2`,
+            [userAskId, userAnswerId]
+        );
+        const result2 = await pool.query(`
+            INSERT INTO friends (user1id, user2id)
+            VALUES ($1, $2), ($2, $1)`,
+            [userAskId, userAnswerId]
+        );
+        res.json({message: 'Friend request accepted successfully'});
+    } catch (err) {
         res.status(500).json({error: err.message});
     }
 });

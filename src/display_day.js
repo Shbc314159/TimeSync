@@ -1,6 +1,6 @@
 let root = null;
 
-function EventList({ data }) {
+function EventList({ data }) { 
     const events = [];
     const year = getCookie('year');
     const month = getCookie('month');
