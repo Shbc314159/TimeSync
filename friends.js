@@ -33,12 +33,8 @@ async function loadPage() {
         return;
     } else {
         let friends = await response.json();
-        displayFriends(friends.friends);
+        displayFriends(friends);
     }
-}
-
-function displayFriends(friends) {
-    console.log(friends);
 }
 
 async function requestFriend() {
@@ -88,3 +84,60 @@ async function acceptRequest(friendid) {
         loadPage();
     }
 }
+
+async function declineRequest(friendid) {
+    let userid = parseInt(getCookie('userid'));
+    friendid = parseInt(friendid);
+    let response = await fetch('/declinerequest', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userid: userid,
+            friendid: friendid
+        })
+    });
+
+    if (!response.ok) {
+        alert('Error declining friend request');
+        return;
+    } else {
+        loadPage();
+    }
+}
+
+async function removeFriend(friendid) {
+    let userid = parseInt(getCookie('userid'));
+    friendid = parseInt(friendid);
+    let response = await fetch('/removefriend', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userid: userid,
+            friendid: friendid
+        })
+    });
+    
+    if (!response.ok) {
+        alert('Error removing friend');
+        return;
+    } else {
+        loadPage();
+    }
+}
+
+document.body.onclick = function(event) {
+    if (event.target.classList.contains('friend-id') || event.target.classList.contains('friend-uname') || event.target.classList.contains('friend-container')) {
+        if (event.target.closest('.friendInfo')) {
+            const friendIdElement = event.target.closest('.friendInfo').querySelector('.friend-id');
+            if (friendIdElement) {
+                const friendId = friendIdElement.id;
+                setSessionCookie('friendid', friendId);
+                window.location.href = '/friend_calendar.html';
+            }
+        }
+    } 
+};

@@ -92,6 +92,7 @@ document.addEventListener("click", function(event) {
     const elements = document.elementsFromPoint(x, y);
     let eventBox = elements.filter(element => element.classList.contains('eventBar'));
     setSessionCookie('eventid', eventBox[0].id);
+    setSessionCookie('isAddedEvent', eventBox[0].dataset.added);
 
     window.location.href = '/view_event.html';
 });

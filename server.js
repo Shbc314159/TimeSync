@@ -260,7 +260,7 @@ app.post('/calendarDayView', async (req, res) => {
         const day_end = new Date(year, month, day, 23, 59, 59);
 
         const result = await pool.query(`
-            SELECT id, name, start_time, end_time
+            SELECT id, name, start_time, end_time, false AS isAddedEvent
             FROM events WHERE userID = $1
             AND end_time > $2
             AND start_time < $3`,
@@ -271,7 +271,7 @@ app.post('/calendarDayView', async (req, res) => {
         for (let row of addedeventids.rows) {
             const id = row.eventid;
             let data = await pool.query(`
-                SELECT id, name, start_time, end_time 
+                SELECT id, name, start_time, end_time, true AS isAddedEvent
                 FROM events WHERE id = $1
                 AND end_time > $2
                 AND start_time < $3`,
@@ -421,12 +421,111 @@ app.post('/acceptrequest', async (req, res) => {
         );
         const result2 = await pool.query(`
             INSERT INTO friends (user1id, user2id)
-            VALUES ($1, $2), ($2, $1)`,
+            VALUES ($1, $2)`,
             [userAskId, userAnswerId]
         );
         res.json({message: 'Friend request accepted successfully'});
     } catch (err) {
         res.status(500).json({error: err.message});
+    }
+});
+
+app.post('/removefriend', async (req, res) => {
+    try {
+        const user1id= req.body.userid;
+        const user2id = req.body.friendid;
+        const result = await pool.query(`
+            DELETE FROM friends WHERE (user1id = $1 AND user2id = $2) OR (user1id = $2 AND user2id = $1)`,
+            [user1id, user2id]
+        );
+        res.json({message: 'Friend removed successfully'});
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/declinerequest', async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const friendid = req.body.friendid;
+        const result = await pool.query(`
+            DELETE FROM friendshipRequests WHERE userAskId = $2 AND userAnswerId = $1`,
+            [userid, friendid]
+        );
+        res.json({message: 'Friend request declined successfully'});
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/friendCalendarMonthView', async (req, res) => {
+    try {
+      const userid = req.body.userid;
+      const friendid = req.body.friendid;
+      const month = req.body.month;
+      const year = req.body.year;
+  
+      const month_start = new Date(year, month, 1, 0, 0, 0);
+      const month_end = new Date(year, month + 1, 0, 23, 59, 59);
+  
+      let visible = await pool.query(`
+        SELECT eventsvisible FROM users
+        WHERE id = $1`,
+        [friendid]
+      );
+  
+      visible = visible.rows[0].eventsvisible;
+  
+      let events = []; // Initialize an empty array to store events
+  
+      if (visible) {
+        const addedeventids = await pool.query(`
+          SELECT eventID FROM usersAddedToEvents WHERE userID = $1`,
+          [friendid]
+        );
+  
+        for (const row of addedeventids.rows) {
+          const id = row.eventid;
+          const eventData = await pool.query(`
+            SELECT id, name, start_time, end_time 
+            FROM events WHERE id = $1
+            AND end_time > $2
+            AND start_time < $3`,
+            [id, month_start, month_end]
+          );
+  
+          // Assuming eventData.rows is an array (check if necessary)
+          events.push(...eventData.rows); // Add event data to the events array
+        }
+      }
+  
+      let otherevents = await pool.query(`
+        SELECT e.id, e.name, e.start_time, e.end_time
+        FROM events e
+        JOIN eventsvisibletousers evtu ON e.id = evtu.eventid
+        WHERE evtu.userid = $1 
+        AND e.userid = $2
+        AND e.start_time < $3 
+        AND e.end_time > $4`,
+        [userid, friendid, month_end, month_start]
+      );
+  
+      const result = [...events, ...otherevents.rows]; // Concatenate events and otherevents
+
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/leaveEvent', (req, res) => {
+    try {
+        userid = req.body.userid;
+        eventid = req.body.eventid;
+        pool.query('DELETE FROM usersaddedtoevents WHERE userID = $1 AND eventID = $2', [userid, eventid]);
+        res.json({ message: 'Event left successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

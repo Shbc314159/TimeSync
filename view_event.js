@@ -1,5 +1,8 @@
 async function viewEvent() {
     eventid = getCookie('eventid');
+    if (getCookie('isAddedEvent') == 'true') {
+        modifyPage();
+    }
 
     const response = await fetch('/getEventInfo', {
         method: 'POST',
@@ -276,7 +279,7 @@ async function createEvent() {
             visibleFriends: visibleFriends,
             og_id: null
         })
-    });
+    }); 
 
     if (!response.ok) {
         const errorData = await response.json();
@@ -332,3 +335,43 @@ async function createEventWithData(userid, eventName, eventDescription, startTim
         })
     });
 }
+
+function modifyPage() {
+    const buttonsDiv = document.getElementById("buttonsdiv");
+    const deleteButton = document.getElementById("deletebutton");
+    const savebutton = document.getElementById("savebutton");
+
+    buttonsDiv.removeChild(savebutton);
+    buttonsDiv.removeChild(deleteButton);
+
+    const leaveButton = document.createElement("button");
+    leaveButton.id = "deletebutton";
+    leaveButton.textContent = "Leave";
+    leaveButton.onclick = leaveEvent;
+
+    buttonsDiv.appendChild(leaveButton);
+}
+
+async function leaveEvent() {
+    eventid = getCookie('eventid');
+    userid = getCookie('userid');
+    const response = await fetch('/leaveEvent', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            eventid: eventid,
+            userid: userid
+        })
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        alert('Error leaving event:', errorData.error);
+    } else {
+        await response.json();
+        alert('Event left successfully');
+        window.location.href = './view_day.html';
+    }
+}   

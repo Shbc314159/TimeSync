@@ -21,7 +21,7 @@ function FriendRequests(_ref) {
                 React.createElement(
                     "p",
                     { className: "request-id" },
-                    "#",
+                    "UserID #",
                     request.id
                 )
             ),
@@ -57,3 +57,58 @@ function displayRequests(requests) {
 }
 
 window.displayRequests = displayRequests;
+
+function Friends(_ref2) {
+    var data = _ref2.data;
+
+    var friends = [];
+
+    var _loop = function _loop(i) {
+        var friend = data[i];
+        friends.push(React.createElement(
+            "div",
+            { key: i, className: "friend-container" },
+            React.createElement(
+                "div",
+                { className: "friendInfo" },
+                React.createElement(
+                    "p",
+                    { className: "friend-uname" },
+                    friend[1]
+                ),
+                React.createElement(
+                    "p",
+                    { className: "friend-id", id: friend[0] },
+                    "UserID #",
+                    friend[0]
+                )
+            ),
+            React.createElement(
+                "button",
+                { className: "remove-friend", onClick: function onClick() {
+                        return removeFriend(friend[0]);
+                    } },
+                "Remove"
+            )
+        ));
+    };
+
+    for (var i = 0; i < data.length; i++) {
+        _loop(i);
+    }
+
+    return React.createElement(
+        "div",
+        null,
+        friends
+    );
+}
+
+function displayFriends(data) {
+    var domContainer = document.getElementById('friends-container');
+    var root = ReactDOM.createRoot(domContainer);
+
+    root.render(React.createElement(Friends, { data: data }));
+}
+
+window.displayFriends = displayFriends;

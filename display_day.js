@@ -55,7 +55,7 @@ function EventList(_ref) {
                 ),
                 React.createElement(
                     'div',
-                    { className: 'eventBar', id: event.id, style: { backgroundColor: '' + color } },
+                    { className: 'eventBar', id: event.id, 'data-added': event.isaddedevent, style: { backgroundColor: '' + color } },
                     React.createElement(
                         'p',
                         { className: 'eventName' },

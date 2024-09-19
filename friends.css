@@ -5,7 +5,7 @@
     font-weight: 200;
     margin: 0;
     padding: 1vh 0vh;
-    background-color: #2e2e2e;
+    background-color: #1a1a1a;
 }
 
 body {
@@ -49,6 +49,8 @@ body {
 #add-container {
     display: flex;
     align-items: center;
+    margin-bottom: 10vh;
+    margin-top: 3vh;
 }
 
 .request-container {
@@ -68,11 +70,6 @@ body {
     margin-bottom: 1px;
     margin-left: 5px;
 }
-
-.request-text .username {
-    font-size: 24px; /* Adjust the font size for the username */
-    font-weight: bolder;
-  }
 
 .request-id {
     margin: 0;
@@ -107,4 +104,44 @@ body {
     background-color:#268f00;
     color: white;
     margin-right: 3vw;
+}
+
+.friend-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2e2e2e;
+    padding: 10px 0px;
+    border-top: 1px solid rgb(31, 31, 31);
+}
+
+.friendInfo {
+    flex: 4;
+}
+
+.friend-uname {
+    margin: 3px;
+    margin-bottom: 1px;
+    margin-left: 5px;
+}
+
+.friend-id {
+    margin: 0;
+    font-weight: 400;
+    font-size: 13px;
+    color: #7e7e7e;
+    margin-left: 5px;
+}
+
+.remove-friend {
+    flex: 1;
+    padding: 3px;
+    border-radius: 5px;
+    width: 20px;
+    height: 35px;
+    font-size: 17px;
+    background-color:#616161;
+    color: rgb(224, 224, 224);
+    margin-right: 3vw;
+    border: 0;
 }

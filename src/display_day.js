@@ -27,13 +27,14 @@ function EventList({ data }) {
 
         let color = getRandomColor();
 
+
         events.push(
             <div className='event' key={event.id}>
                 <div className='times'>
                     <p className='start-time'>{formatTime(start_time)}</p>
                     <p className='end-time'>{formatTime(end_time)}</p>
                 </div>
-                <div className="eventBar" id={event.id} style={{backgroundColor: `${color}`}}>
+                <div className="eventBar" id={event.id} data-added={event.isaddedevent} style={{backgroundColor: `${color}`}}>
                     <p className='eventName'>{event.name}</p>
                 </div>
             </div> 

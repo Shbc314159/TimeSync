@@ -26,7 +26,7 @@
         <link rel="stylesheet" href="navbar.css">
         <link rel="icon" href="/icon.png" type="image/x-icon">
     </head>
-    <body onload="loadPage()">
+    <body onload="checkLogin(); loadPage()">
         <h1 id="title">Settings</h1>
         <p id="username"></p>
         <p id="userID"></p>
@@ -37,7 +37,7 @@
                 <span class="slider"></span>
             </label>
         </div>
-        
+        <button onclick="logout()">Logout</button>
         <ul id="navbar">
             <li class="navbar-item"><a href="calendar.html"><img class="navbar-img" src="calendar-navbar.png" /></a></li>
             <li class="navbar-item"><a href="friends.html"><img class="navbar-img" src="friends-navbar.png" /></a></li>

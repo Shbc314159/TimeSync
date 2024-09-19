@@ -50,3 +50,9 @@ checkbox.addEventListener('change', async () => {
         alert('Error switching visibility settings:', errorData.error);
     }
 });
+
+function logout() {
+    setSessionCookie('userid', null);
+    setSessionCookie('username', null);
+    window.location.href = '/login.html';
+}

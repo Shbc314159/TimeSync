@@ -1,7 +1,7 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 15vw;
+    width: 16vw;
     margin-right: 15vw;
     height: 6vw;
 }
@@ -18,9 +18,9 @@ input:checked + .slider {
 
   
 input:checked + .slider:before {
-    -webkit-transform: translateX(9vw);
-    -ms-transform: translateX(9vw);
-    transform: translateX(9vw);
+    -webkit-transform: translateX(8vw);
+    -ms-transform: translateX(8vw);
+    transform: translateX(8vw);
 }
 
 .slider {
@@ -82,4 +82,14 @@ body {
     flex: 1;
     flex-basis: 15vw;
     margin-right: 15vw;
+}
+
+button {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: #a074c4;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
 }

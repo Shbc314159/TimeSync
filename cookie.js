@@ -27,3 +27,10 @@ function getCookie(name) {
 
     return null;
 }
+
+function checkLogin() {
+    if (getCookie('userid') == null && window.location.pathname != '/login.html') {
+        window.location.pathname = "/login.html";
+    }
+}
+

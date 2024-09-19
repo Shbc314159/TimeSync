@@ -15,7 +15,9 @@ function widenElement(id) {
 
 function wrapToNextLine(id, currentboxnum, numpixels) {
     const box = document.getElementById(`calendar-box${currentboxnum+1}`);
-    console.log(box);
+    if (box == null) {
+        return;
+    }
     const newLine = document.createElement('p');
     const otherLine = document.getElementById(`blank-event-${id}`);
     const originalLine = document.getElementById(`event${id}`);
