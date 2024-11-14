@@ -75,7 +75,7 @@ function Events({ data, boxnum, firstDay, longEvents, lines, eventsNotDisplayed 
             if (endTime > endDay) { // if the event doesn't end on this day
                 longEvents.push(event);
                 if (startDay.getDay() === 0) {
-                    let index = lines.indexOf(event);
+                    let index = lines.indexOf(event); 
                     let numpixels = index * 30 + 2;
                     React.useEffect(() => {
                         wrapToNextLine(event.id, boxnum, numpixels);

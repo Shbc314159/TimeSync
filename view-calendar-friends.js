@@ -6,7 +6,7 @@ async function viewCalendar() {
 
     if (month == null || year == null) {
         month = new Date().getMonth(); 
-        year = new Date().getFullYear();
+        year = new Date().getFullYear(); 
         setSessionCookie('month', month);
         setSessionCookie('year', year);
     }

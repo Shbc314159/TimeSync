@@ -63,7 +63,7 @@ body {
 #calendar-box-container {
     display: grid;
     grid-template-columns: repeat(7, 14.284vw);
-    grid-template-rows: repeat(6, 13vh);
+    grid-template-rows: repeat(6, 12vh);
     height: 80vh;
 }
 

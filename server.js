@@ -5,7 +5,7 @@ const { Pool } = require('pg');
 const app = express();
 
 app.use(bodyParser.json());
-/*
+
 const pool = new Pool({ 
     user: 'postgres',
     host: 'localhost',
@@ -13,12 +13,12 @@ const pool = new Pool({
     database: 'local',
     password: 'mitsPost27',
 });
-*/
 
+/*
 const pool = new Pool({
     connectionString: "postgresql://database_o1pk_user:OO0kTMxl4YgHvazGn7EU7sBwEXT1zv5c@dpg-cr2ffhbtq21c73f87klg-a/database_o1pk"
 });
-
+*/
 
 app.use(express.static(path.join(__dirname)));
 
@@ -526,6 +526,67 @@ app.post('/leaveEvent', (req, res) => {
         res.json({ message: 'Event left successfully' });
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/calendarDayViewFriend', async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const month = req.body.month;
+        const year = req.body.year;
+        const day = req.body.day;
+        const day_start = new Date(year, month, day, 0, 0, 0);
+        const day_end = new Date(year, month, day, 23, 59, 59);
+        const friendid = req.body.friendid;
+
+        let visible = await pool.query(`
+            SELECT eventsvisible FROM users
+            WHERE id = $1`,
+            [friendid]
+        );
+      
+        visible = visible.rows[0].eventsvisible;
+      
+        let events = []; // Initialize an empty array to store events
+    
+        if (visible) {
+        const addedeventids = await pool.query(`
+            SELECT eventID FROM usersAddedToEvents WHERE userID = $1`,
+            [friendid]
+        );
+    
+        for (const row of addedeventids.rows) {
+            const id = row.eventid;
+            const eventData = await pool.query(`
+            SELECT id, name, start_time, end_time 
+            FROM events WHERE id = $1
+            AND end_time > $2
+            AND start_time < $3`,
+            [id, day_start, day_end]
+            );
+    
+            // Assuming eventData.rows is an array (check if necessary)
+            events.push(...eventData.rows); // Add event data to the events array
+        }
+        }
+    
+        let otherevents = await pool.query(`
+        SELECT e.id, e.name, e.start_time, e.end_time
+        FROM events e
+        JOIN eventsvisibletousers evtu ON e.id = evtu.eventid
+        WHERE evtu.userid = $1 
+        AND e.userid = $2
+        AND e.start_time < $3 
+        AND e.end_time > $4`,
+        [userid, friendid, day_end, day_start]
+        );
+    
+        const result = [...events, ...otherevents.rows]; // Concatenate events and otherevents
+
+        res.json(result);
+    }
+    catch (err) {
+        res.status(500).json({error: err.message}); 
     }
 });
 

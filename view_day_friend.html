@@ -7,12 +7,10 @@
             function gtag() { dataLayer.push(arguments); }
             gtag('js', new Date());
     
-            gtag('config', 'G-WPJ8DCJ6YV'); 
-        </script>
-
+            gtag('config', 'G-WPJ8DCJ6YV');
+        </script> 
         <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-        
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>        
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,22 +25,27 @@
             href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
             rel="stylesheet">
         <link rel="stylesheet" href="navbar.css">
-        <link rel="stylesheet" href="calendar.css">
+        <link rel="stylesheet" href="view_day.css">
         <link rel="icon" href="/icon.png" type="image/x-icon">
     </head>
-    <body onload="checkLogin(); viewCalendar()">
-        <div id="calendar"></div>
+    <body onload="checkLogin(); viewDay()"> 
+        <div id="top-bar">
+            <button id="backday" onclick="backDay()"><img id="backdayimg" src="back-arrow.png"></img></button>
+            <button id="homebutton" onclick="goHome()"><img id="homebuttonimg" src="up-arrow.png"></img></button>
+            <h1 id="dayHeader"></h1>
+            <button id="forwardday" onclick="forwardDay()"><img id="forwarddayimg" src="forward-arrow.png"></img></button>
+        </div>
+        
+        <div id="eventList"></div>
+        
         <ul id="navbar">
-            <li class="navbar-item"><a href="calendar.html"><img class="navbar-img" src="calendar-navbar-blue.png" /></a></li>
+            <li class="navbar-item"><a href="calendar.html"><img class="navbar-img" src="calendar-navbar.png" /></a></li>
             <li class="navbar-item"><a href="friends.html"><img class="navbar-img" src="friends-navbar.png" /></a></li>
             <li class="navbar-item"><a href="create-event.html"><img class="navbar-img" src="create-event-navbar.jpg" /></a></li>
             <li class="navbar-item"><a href="settings.html"><img class="navbar-img" src="settings-navbar.png" /></a></li>
         </ul>
-        <script src="view-calendar-friends.js" async defer></script>  
-        <script src="month-prev-next.js" async defer></script>
-        <script src="calendar-funcs.js" async defer></script>
-        <script src="click_day_friends.js" async defer></script>
-        <script src="display_calendar.js" type="module"></script>  
-        <script src="cookie.js" async defer></script>
+        <script src="cookie.js"></script>
+        <script src="view_day_friend.js"></script>
+        <script src="display_day.js"></script>
     </body>
 </html>

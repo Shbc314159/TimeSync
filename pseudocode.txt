@@ -1,0 +1,78 @@
+function analyse_calendar(x) {
+    universalWeekStart = new Date("1950-01-01T00:00:00Z")
+    events = getEventsFromCalendar();
+    events = mapEventsToStdWeek(standardWeekDate, events);
+    events = quicksort(events);
+    categories = new Array(12*24*7).fill(0);
+    length = x DIV 5;
+
+    for (int i = 0; i < categories.length; i++) {
+        start = new Date(Date.UTC(1950, 0, 1, 0, 0, 0));
+        start = new Date(start.getTime() + i * 60 * 1000);
+        end = new Date(start.getTime() + 5 * 60 * 1000);
+        for (item in events) {
+            if (item[1] < start.getTime()) {
+                events.remove(item);
+            } else if (item[0] < end.getTime()) {
+                categories[i] += 1
+            }
+        }
+    }
+
+    lowest = len(events);
+    lowesttime = 0;
+    for (int i = 0; i < categories.length - length; i++) {
+        sum = 0;
+        for (int j = 0; j < length; j++) {
+            sum += categories[i + j];
+        }
+        if (sum < lowest) {
+            lowesttime = i;
+        }
+    }
+    return lowesttime * 5 * 60 * 1000;
+}
+
+function getEventsFromCalendar() {
+    events = SELECT (start_time, end_time) FROM events WHERE userid = id;
+    return events;
+}
+
+function mapEventsToStdWeek(standardWeekDate, events) {
+    for (item in events) {
+        day = item[0].getDay() + 1;
+        hour = item[0].getHour();
+        minute = item[0].getMinute();
+        second = item[0].getSecond();
+        newstart = f'1950-01-{day}-{hour}-{minute}-{second}';
+
+        day = item[1].getDay() + 1;
+        hour = item[1].getHour();
+        minute = item[1].getMinute();
+        second = item[1].getSecond();
+        newend = f'1950-01-{day}-{hour}-{minute}-{second}';
+        
+        if ((Math.abs(item[1] - item[0]) > 7 * 24 * 60 * 60 * 1000) || (item[1].getDay() < item[0].getDay())) {
+            otherend = f'1950-01-07-23-59-59';
+            otherstart = f'1950-01-01-00-00-00';
+
+            for (int i = 0; i < (Math.abs(endDate - startDate) / (24 * 60 * 60 * 1000)) MOD 7; i++;) {
+                addedstart = f'1950-01-01-00-00-00';
+                addedend = f'1950-01-07-23-59-59';
+                events.append([addedstart, addedend]);
+            }
+
+            events.append([otherstart, item[1]]);
+            events.append([item[0], otherend]);
+            events.remove(item);
+        }   
+    }
+}
+
+function quicksort(events) {
+    return events.sort((a, b) => {
+        let endTimeA = new Date(a.endTime);
+        let endTimeB = new Date(b.endTime);
+        return endTimeA - endTimeB;
+    });
+}

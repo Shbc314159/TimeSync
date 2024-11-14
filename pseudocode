@@ -1,0 +1,4 @@
+function analyse_calendar() {
+    events = SELECT start_time, end_time FROM events WHERE userid=id  
+    
+}
