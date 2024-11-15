@@ -215,7 +215,7 @@ async function createNewEvent() {
 async function createRepeatedEvents(userid, eventName, eventDescription, startTime, endTime, repeats, addedFriends, visibleFriends, og_id) {
     let startTimes = []
     let endTimes = []  
-    for (let i = 0; i < 2500; i++) {
+    for (let i = 0; i < 2000; i++) {
         let newStartTime = new Date(startTime.setDate(startTime.getDate() + repeats));
         let newEndTime = new Date(endTime.setDate(endTime.getDate() + repeats));
         startTimes.push(newStartTime.toISOString());
