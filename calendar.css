@@ -4,6 +4,7 @@
     font-family: "Inter"; 
     font-weight: 200;
     margin: 0;
+    font-size: 3.5vh;
     padding: 1vh 0vh;
     background-color: #2e2e2e;
 }
@@ -13,6 +14,7 @@
     justify-content: space-between;
     background-color: #2e2e2e;
     align-items: center;
+    height: 7.2vh;
 }
 
 #backmonthimg, #forwardmonthimg {
@@ -35,6 +37,8 @@ body {
     background-color: #3d3d3d;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 #weekday-list {
@@ -45,7 +49,8 @@ body {
     background-color: #2e2e2e; 
     margin: 0;
     padding: 0;
-
+    height: 3vh;
+    font-size: 2vh;
 }
 
 .weekday-title {
@@ -57,14 +62,14 @@ body {
     border-right: 1px solid #868686;
     border-bottom: 1px solid #868686;
     text-align: center;
-    padding: 0.5vh 0vh;
+    padding: 0.25vh 0vh;
 }
 
 #calendar-box-container {
     display: grid;
     grid-template-columns: repeat(7, 14.284vw);
-    grid-template-rows: repeat(6, 12vh);
-    height: 80vh;
+    grid-template-rows: repeat(6, 14vh);
+    height: 84vh;
 }
 
 .calendar-box {
@@ -82,30 +87,32 @@ body {
     border: 0;
     font-family: "Inter";
     font-weight: 100;
+    font-size: 1.9vh;
 }
 
 .event {
     overflow: hidden;
     white-space: nowrap;
-    margin: 5px 0vw 0vh 1vw;
+    margin: 1vh 0vw 0vh 0.6vw;
     font-family: "Inter";
     color: white;
-    padding: 3px;
-    border-radius: 5px 0px 0px 5px;
-    font-size: 15px;
-    width: 11.6vw;
+    padding: 0.1vh;
+    padding-left: 0.3vh;
+    border-radius: 5px 5px 5px 5px;
+    height: 2.8vh;
+    font-size: 2.3vh;
+    width: 12.2vw; 
     position: fixed;
 }
 
 .blank-event {
     overflow: hidden;
     white-space: nowrap;
-    margin: 5px 0vw 0vh 0vw;
-    background-color: green;
-    padding: 12px 0px;
+    margin: 0.1vh 0vw 0vh 0vw;
+    padding: 0.1vh;
     border-radius: 0px 5px 5px 0px;
     margin-left: 0px;
-    font-size: 15px;
-    width: 56px;
-    position: absolute;
+    height: 2.8vh;
+    width: 11.6vw;
+    position: fixed;
 }

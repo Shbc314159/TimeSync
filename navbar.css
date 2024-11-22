@@ -1,20 +1,22 @@
 #navbar {
     list-style-type: none;
     background-color: black;
+    display: flex;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     margin: 0px;
-    padding: 1.75% 0%;
+    padding: 1vh 0%;
     border-top: 0.1vh solid gray;
+    height: 3.8vh;
+    justify-content: space-around;
 }
 
 .navbar-item {
-    display: inline;
-    padding: 0% 9vw;
+    padding: 0;
 }
 
 .navbar-img {
-    width: 6vw;
+    width: 3.3vh;
 }

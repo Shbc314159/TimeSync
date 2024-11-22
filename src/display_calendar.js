@@ -62,7 +62,7 @@ function Events({ data, boxnum, firstDay, longEvents, lines, eventsNotDisplayed 
                     }
                 }
                 let index = lines.indexOf(event);
-                let numpixels = index * 30 + 2;
+                let numpixels = index * (0.037 * window.innerHeight);
                 let color = getRandomColor();
                 if (index < 3 && index > -1) {
                     eventElements.push(<p key={event.id} id={`event${event.id}`} className="event" style={{marginTop: `${numpixels}px`, backgroundColor: `${color}`}}>{event.name}</p>);
@@ -76,7 +76,7 @@ function Events({ data, boxnum, firstDay, longEvents, lines, eventsNotDisplayed 
                 longEvents.push(event);
                 if (startDay.getDay() === 0) {
                     let index = lines.indexOf(event); 
-                    let numpixels = index * 30 + 2;
+                    let numpixels = index * (0.037 * window.innerHeight);
                     React.useEffect(() => {
                         wrapToNextLine(event.id, boxnum, numpixels);
                     }, []);

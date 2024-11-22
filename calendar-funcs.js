@@ -5,7 +5,7 @@ function widenElement(id) {
     }
 
     const currentWidth = parseFloat(getComputedStyle(element).width);
-    const additionalWidth = 59.2;
+    const additionalWidth = (0.1429 * window.innerWidth);
     element.style.width = `${currentWidth + additionalWidth}px`;
     if (!element.classList.contains(`blank-event`)) {
         element.style.borderRadius = '5px';
@@ -29,11 +29,11 @@ function wrapToNextLine(id, currentboxnum, numpixels) {
         otherLine.id = `blank-event-${id}-${randomNumber}`;
         element = document.getElementById(`blank-event-${id}-${randomNumber}`);
         const currentWidth = parseFloat(getComputedStyle(element).width);
-        element.style.width = `${currentWidth + 2.875}px`;
+        element.style.width = `${currentWidth + 10}px`;
     } else {
         element = originalLine; 
         const currentWidth = parseFloat(getComputedStyle(element).width);
-        element.style.width = `${currentWidth + 1}px`;
+        element.style.width = `${currentWidth + 3}px`;
     }
 
     var currentRadius = window.getComputedStyle(element).borderRadius;
@@ -52,10 +52,12 @@ function wrapToNextLine(id, currentboxnum, numpixels) {
     newLine.style.marginTop = `${numpixels}px`;
     newLine.style.backgroundColor = originalLine.style.backgroundColor;
     box.appendChild(newLine);
+    const currentWidth = parseFloat(getComputedStyle(newLine).width);
+    console.log(currentWidth);
+    newLine.style.width = `${currentWidth + 8}px`;
 }
 
 const colors = [
-    // Warm and muted colors
     '#E94E77', // Muted red
     '#4CAF50', // Muted green
     '#2979FF', // Muted blue

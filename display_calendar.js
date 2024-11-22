@@ -114,7 +114,7 @@ function Events(_ref3) {
                     }
                 }
                 var index = lines.indexOf(event);
-                var numpixels = index * 30 + 2;
+                var numpixels = index * (0.037 * window.innerHeight);
                 var color = getRandomColor();
                 if (index < 3 && index > -1) {
                     eventElements.push(React.createElement(
@@ -133,7 +133,7 @@ function Events(_ref3) {
                 longEvents.push(event);
                 if (startDay.getDay() === 0) {
                     var _index = lines.indexOf(event);
-                    var _numpixels = _index * 30 + 2;
+                    var _numpixels = _index * (0.037 * window.innerHeight);
                     React.useEffect(function () {
                         wrapToNextLine(event.id, boxnum, _numpixels);
                     }, []);
