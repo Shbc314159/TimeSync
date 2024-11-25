@@ -1,12 +1,12 @@
 #backdayimg, #forwarddayimg, #homebuttonimg {
-    width: 3vh;
+    width: calc(3 * var(--vh));
     height: auto;
 }
 
 #backday, #forwardday, #homebutton {
     background: none;
     flex: 0;
-    padding: 5vw;
+    padding: calc(5 * var(--vw));
     border: 0;
 }
 
@@ -21,10 +21,10 @@
     font-family: "Inter";
     font-weight: 200;
     margin: 0;
-    padding: 1vh 0vh;
+    padding: calc(1 * var(--vh)) calc(0 * var(--vh));
     background-color: #2e2e2e;
     padding-left: 0px;
-    padding-right: 2vw;
+    padding-right: calc(2 * var(--vw));
 }
 
 #top-bar {
@@ -44,12 +44,12 @@ body {
 
 #eventList {
     overflow: scroll;
-    max-height: 86.5vh;
+    max-height: calc(86.5 * var(--vh));
 }
 
 .event {
     display: flex;
-    padding: 3.5vh 1.5vh 0vh 1vh;
+    padding: calc(3.5 * var(--vh)) calc(1.5 * var(--vh)) calc(0 * var(--vh)) calc(1 * var(--vh));
     height: 50px;
 }
 
@@ -62,13 +62,13 @@ body {
 
 .start-time {
     margin: 0px;
-    margin-right: 2.3vw;
+    margin-right: calc(2.3 * var(--vw));
 }
 
 .end-time {
     margin: 0px;
-    margin-right: 2.3vw;
-    margin-top: 1.2vh;
+    margin-right: calc(2.3 * var(--vw));
+    margin-top: calc(1.2 * var(--vh));
 }
 
 .eventBar {
@@ -80,6 +80,6 @@ body {
 .eventName {
     font-weight: 400;
     font-size: 20px;
-    padding: 3vw 0vw 0vw 5vw;
+    padding: calc(3 * var(--vw)) calc(0 * var(--vw)) calc(0 * var(--vw)) calc(5 * var(--vw));
     margin: 0px;
 }

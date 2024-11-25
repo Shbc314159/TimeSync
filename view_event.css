@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     background-color: #2e2e2e;
-    padding: 2vw;
+    padding: calc(2 * var(--vw));
 }
 
 #homebutton {
@@ -13,7 +13,7 @@
 }
 
 #homebuttonimg {
-    height: 3.5vh;
+    height: calc(3.5 * var(--vh));
 }
 
 #id {
@@ -23,9 +23,9 @@
     font-family: "Inter";
     font-weight: 200;
     margin: 0;
-    padding: 1vh 0vh;
+    padding: calc(1 * var(--vh)) calc(0 * var(--vh));
     background-color: #2e2e2e;
-    padding-left: 4vw;
+    padding-left: calc(4 * var(--vw));
 }
 
 body {
@@ -38,11 +38,11 @@ body {
 
 #visible-friends-container {
     overflow: scroll;
-    height: 10vh;
+    height: calc(10 * var(--vh));
 }
 
 #line1 {
-    margin-top: 2vh;
+    margin-top: calc(2 * var(--vh));
 }
 
 .input-container {
@@ -52,7 +52,7 @@ body {
 }
 
 #name-input {
-    width: 40vw;
+    width: calc(40 * var(--vw));
     transition: all 0.3s ease;
     border-radius: 5px;
     padding: 3px;
@@ -68,7 +68,7 @@ body {
 }
 
 #description-input {
-    width: 50vw;
+    width: calc(50 * var(--vw));
     transition: all 0.3s ease;
     border-radius: 5px;
     padding: 3px;
@@ -135,7 +135,7 @@ body {
 }
 
 #line5 {
-    max-height: 20vh;
+    max-height: calc(20 * var(--vh));
     overflow-y: auto;
 }
 
@@ -164,7 +164,7 @@ body {
 
 #added-users-list {
     list-style-type: none;
-    max-height: 32vh;
+    max-height: calc(32 * var(--vh));
     overflow: scroll;
     padding: 0px;
     margin-top: 10px;
@@ -180,13 +180,13 @@ body {
 }
 
 #addFriendsLabel {
-    margin-left: 5vw;
+    margin-left: calc(5 * var(--vw));
     margin-top: 5px;
     margin-right: 10px;
 }
 
 #add-friend-button {
-    margin-left: 5vw;
+    margin-left: calc(5 * var(--vw));
     padding: 5px;
     border-radius: 5px;
     font-family: "Inter";
@@ -198,7 +198,7 @@ body {
 }
 
 #remove-friend-button {
-    margin-left: 3vw;
+    margin-left: calc(3 * var(--vw));
     padding: 5px;
     border-radius: 5px;
     font-family: "Inter";
@@ -217,7 +217,7 @@ body {
     margin-top: 10px;
     margin-bottom: 0px;
     scrollbar-width: 0px;
-    height: 32vh;
+    height: calc(32 * var(--vh));
     background-color: #323232;
     border-radius: 5px;
     border: 2px solid rgb(0, 191, 255);
@@ -227,25 +227,25 @@ body {
 
 .friend-name {
     display: inline;
-    margin-right: 2vw;
-    padding-bottom: 2vh;
+    margin-right: calc(2 * var(--vw));
+    padding-bottom: calc(2 * var(--vh));
 }
 
 #create-button img {
-    height: 15vw;
-    width: 15vw;
+    height: calc(15 * var(--vw));
+    width: calc(15 * var(--vw));
     background-color: #3d3d3d;
 }
 
 #create-button {
     background-color: #3d3d3d;
     border: none;
-    margin-left: 42.5vw;
-    margin-top: 4vh;
+    margin-left: calc(42.5 * var(--vw));
+    margin-top: calc(4 * var(--vh));
 }
 
 #buttonsdiv {
-    padding-top: 2vh;
+    padding-top: calc(2 * var(--vh));
     display: flex;
     justify-content: center;
 }
@@ -259,7 +259,7 @@ body {
     border: 1px solid black;
     color: white;
     font-size: 20px;
-    margin-right: 5vw;
+    margin-right: calc(5 * var(--vw));
 }
 
 #deletebutton {
@@ -271,5 +271,5 @@ body {
     border: 1px solid black;
     color: white;
     font-size: 20px;
-    margin-left: 5vw;
+    margin-left: calc(5 * var(--vw));
 }

@@ -6,29 +6,29 @@ body {
 #login-form {
     color: rgb(184, 184, 184);
     text-align: center;
-    padding: 2vh 0%; 
+    padding: calc(2 * var(--vh)) 0%; 
 }
 
 #line1 {
-    padding: 1vh 0%;
+    padding: calc(1 * var(--vh)) 0%;
 }
 
 h1 {
     color: white;
-    font-size: 4vh;
+    font-size: calc(4 * var(--vh));
     font-weight: bold;
-    margin-bottom: 2vh;
+    margin-bottom: calc(2 * var(--vh));
 }
 
 p {
     color: rgb(184, 184, 184);
-    font-size: 2.5vh;
-    margin-bottom: 4vh;
+    font-size: calc(2.5 * var(--vh));
+    margin-bottom: calc(4 * var(--vh));
     font-weight: 300;
     max-width: 80%;
     margin-left: auto;
     margin-right: auto;
-    padding-bottom: 8vh;
+    padding-bottom: calc(8 * var(--vh));
 }
 
 #username {
@@ -36,7 +36,7 @@ p {
     border: 2px solid rgb(161, 161, 161);
     margin: 0px;
     border-radius: 5px;
-    margin-left: 3vw;
+    margin-left: calc(3 * var(--vw));
     padding: 5px;
     color: white;
 }
@@ -47,7 +47,7 @@ p {
 }
 
 #line2 {
-    padding: 2vh 0%;
+    padding: calc(2 * var(--vh)) 0%;
 }
 
 #password {
@@ -55,7 +55,7 @@ p {
     border: 2px solid rgb(160, 160, 160);
     margin: 0px;
     border-radius: 5px;
-    margin-left: 3vw;
+    margin-left: calc(3 * var(--vw));
     padding: 5px;
     color: white;
 }
@@ -66,8 +66,8 @@ p {
 }
 
 #buttons {
-    padding-top: 2vh;
-    padding-bottom: 10vh;
+    padding-top: calc(2 * var(--vh));
+    padding-bottom: calc(10 * var(--vh));
 
 }
 
@@ -79,7 +79,7 @@ p {
     font-weight: 600;
     background-color: #4681f4;
     border: 2px solid rgb(90, 90, 90);
-    margin-right: 5vw;
+    margin-right: calc(5 * var(--vw));
 }
 
 #signup:hover {
@@ -94,7 +94,7 @@ p {
     font-weight: 600;
     background-color: #3ea185;
     border: 2px solid rgb(90, 90, 90);
-    margin-left: 5vw;
+    margin-left: calc(5 * var(--vw));
 }
 
 #login:hover {
@@ -102,6 +102,6 @@ p {
 }
 
 img {
-    width: 15vh;
-    height: 15vh;
+    width: calc(15 * var(--vh));
+    height: calc(15 * var(--vh));
 }

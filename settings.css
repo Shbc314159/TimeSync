@@ -1,9 +1,9 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 16vw;
-    margin-right: 15vw;
-    height: 6vw;
+    width: calc(16 * var(--vw));
+    margin-right: calc(15 * var(--vw));
+    height: calc(6 * var(--vw));
 }
 
 .switch input { 
@@ -18,9 +18,9 @@ input:checked + .slider {
 
   
 input:checked + .slider:before {
-    -webkit-transform: translateX(8vw);
-    -ms-transform: translateX(8vw);
-    transform: translateX(8vw);
+    -webkit-transform: translateX(calc(8 * var(--vw)));
+    -ms-transform: translateX(calc(8 * var(--vw)));
+    transform: translateX(calc(8 * var(--vw)));
 }
 
 .slider {
@@ -33,16 +33,16 @@ input:checked + .slider:before {
     background-color: #ccc;
     -webkit-transition: .5s;
     transition: .4s;
-    border-radius: 6vh;
+    border-radius: calc(6 * var(--vh));
 }
   
 .slider:before {
     position: absolute;
     content: "";
-    height: 4vw;
-    width: 4vw;
-    left: 1vw;
-    bottom: 1vw;
+    height: calc(4 * var(--vw));
+    width: calc(4 * var(--vw));
+    left: calc(1 * var(--vw));
+    bottom: calc(1 * var(--vw));
     background-color: white;
     -webkit-transition: .5s;
     transition: .4s;
@@ -62,7 +62,7 @@ body {
     text-align: center;
     font-weight: 200;
     margin: 0;
-    padding: 1vh 0vh;
+    padding: calc(1 * var(--vh)) calc(0 * var(--vh));
     background-color: #2e2e2e;
 }
 
@@ -73,15 +73,15 @@ body {
 
 #visible-div p {
     flex: 1;
-    flex-basis: 65vw;
-    margin-left: 10vw;
+    flex-basis: calc(65 * var(--vw));
+    margin-left: calc(10 * var(--vw));
 }
 
 #visible-div label {
     margin-top: 15px;
     flex: 1;
-    flex-basis: 15vw;
-    margin-right: 15vw;
+    flex-basis: calc(15 * var(--vw));
+    margin-right: calc(15 * var(--vw));
 }
 
 button {

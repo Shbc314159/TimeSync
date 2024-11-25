@@ -4,7 +4,7 @@
     font-family: "Inter";
     font-weight: 200;
     margin: 0;
-    padding: 1vh 0vh;
+    padding: calc(1 * var(--vh)) calc(0 * var(--vh));
     background-color: #1a1a1a;
 }
 
@@ -17,8 +17,8 @@ body {
 }
 
 #friend-request img {
-    height: 15vw;
-    width: 15vw;
+    height: calc(15 * var(--vw));
+    width: calc(15 * var(--vw));
     background-color: #3d3d3d;
 }
 
@@ -26,7 +26,7 @@ body {
     flex: 1;
     background-color: #3d3d3d;
     border: none;
-    margin-left: 5vw;
+    margin-left: calc(5 * var(--vw));
 }
 
 #friend-id-input {
@@ -36,7 +36,7 @@ body {
     border-radius: 5px;
     border: 2px solid rgb(0, 8, 90);
     font-family: "Inter";
-    margin-left: 10vw;
+    margin-left: calc(10 * var(--vw));
 }
 
 #friend-id-input:focus {
@@ -49,8 +49,8 @@ body {
 #add-container {
     display: flex;
     align-items: center;
-    margin-bottom: 10vh;
-    margin-top: 3vh;
+    margin-bottom: calc(10 * var(--vh));
+    margin-top: calc(3 * var(--vh));
 }
 
 .request-container {
@@ -90,7 +90,7 @@ body {
     font-size: 18px;
     background-color: #0074e0;
     color: white;
-    margin-right: 3vw;
+    margin-right: calc(3 * var(--vw));
 }
 
 .reject-request {
@@ -103,7 +103,7 @@ body {
     font-size: 17px;
     background-color:#268f00;
     color: white;
-    margin-right: 3vw;
+    margin-right: calc(3 * var(--vw));
 }
 
 .friend-container {
@@ -142,6 +142,6 @@ body {
     font-size: 17px;
     background-color:#616161;
     color: rgb(224, 224, 224);
-    margin-right: 3vw;
+    margin-right: calc(3 * var(--vw));
     border: 0;
 }
