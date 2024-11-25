@@ -4,7 +4,7 @@
     font-family: "Inter";
     font-weight: 200;
     margin: 0;
-    padding: calc(1 * var(--vh)) calc(0 * var(--vh));
+    padding: 1vh 0vh;
     background-color: #2e2e2e;
 }
 
@@ -18,21 +18,21 @@ body {
 
 #visible-friends-container {
     overflow: scroll;
-    height: calc(10 * var(--vh));
+    height: 7vh;
 }
 
 #line1 {
-    margin-top: calc(2 * var(--vh));
+    margin-top: 0.5vh;
 }
 
 .input-container {
-    padding: 10px 0px;
+    padding: 0.8vh 0px;
     text-align: center;
     width: 100%;
 }
 
 #name-input {
-    width: calc(10 * var(--vw));
+    width: 10vw;
     transition: all 0.3s ease;
     border-radius: 5px;
     padding: 3px;
@@ -41,14 +41,14 @@ body {
 }
 
 #name-input:focus {
-    width: calc(50 * var(--vw));
+    width: 50vw;
     outline: none;
     box-shadow: none;
     border: 2px solid rgb(0, 119, 255);
 }
 
 #description-input {
-    width: calc(10 * var(--vw));
+    width: 10vw;
     transition: all 0.3s ease;
     border-radius: 5px;
     padding: 3px;
@@ -57,7 +57,7 @@ body {
 }
 
 #description-input:focus {
-    width: calc(50 * var(--vw));
+    width: 50vw;
     outline: none;
     box-shadow: none;
     border: 2px solid rgb(0, 119, 255);
@@ -108,7 +108,7 @@ body {
 }
 
 #line5 {
-    max-height: calc(20 * var(--vh));
+    max-height: 20vh;
     overflow-y: auto;
 }
 
@@ -137,7 +137,7 @@ body {
 
 #added-users-list {
     list-style-type: none;
-    max-height: calc(32 * var(--vh));
+    max-height: 7vh;
     overflow: scroll;
     padding: 0px;
     margin-top: 10px;
@@ -153,14 +153,13 @@ body {
 }
 
 #addFriendsLabel {
-    margin-left: calc(5 * var(--vw));
+    margin-left: 5vw;
     margin-top: 5px;
     margin-right: 10px;
 }
 
 #add-friend-button {
-    margin-left: calc(5 * var(--vw));
-    padding: 5px;
+    margin-left: 5vw;
     border-radius: 5px;
     font-family: "Inter";
     font-weight: 300;
@@ -168,10 +167,11 @@ body {
     border: 1px solid black;
     color: white;
     font-size: 15px;
+    padding: 5px;
 }
 
 #remove-friend-button {
-    margin-left: calc(3 * var(--vw));
+    margin-left: 3vw;
     padding: 5px;
     border-radius: 5px;
     font-family: "Inter";
@@ -190,7 +190,7 @@ body {
     margin-top: 10px;
     margin-bottom: 0px;
     scrollbar-width: 0px;
-    height: calc(32 * var(--vh));
+    height: 32vh;
     background-color: #323232;
     border-radius: 5px;
     border: 2px solid rgb(0, 191, 255);
@@ -200,21 +200,22 @@ body {
 
 .friend-name {
     display: inline;
-    margin-right: calc(2 * var(--vw));
-    padding-bottom: calc(2 * var(--vh));
+    margin-right: 2vw;
+    padding-bottom: 2vh;
 }
 
 #create-button img {
-    height: calc(15 * var(--vw));
-    width: calc(15 * var(--vw));
+    height: 15vw;
+    width: 15vw;
     background-color: #3d3d3d;
 }
 
 #create-button {
     background-color: #3d3d3d;
     border: none;
-    margin-left: calc(42.5 * var(--vw));
-    margin-top: calc(4 * var(--vh));
+    margin-left: 42.5vw;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
 }
 
 

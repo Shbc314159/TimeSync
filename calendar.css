@@ -37,8 +37,9 @@ body {
     background-color: #3d3d3d;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
     width: 100%;
+    position: fixed;
 }
 
 #weekday-list {
