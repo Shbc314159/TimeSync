@@ -163,7 +163,6 @@ async function createNewEvent() {
             return;
         }
     }
-    console.log(friendsbusydata.success, friendsbusydata.clashfriends);
 
     let visibleFriends = [];
     let visibleList = document.getElementById('visible-friends-container');

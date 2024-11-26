@@ -596,7 +596,6 @@ app.post('/checkaddedfriends', async (req, res) => {
         const endTime = req.body.endTime;
         const friendids = req.body.addedFriends;
         clashfriends = [];
-        console.log(startTime, endTime, friendids);
 
         for (const friendid of friendids) {
             const clash = await pool.query(`
@@ -608,9 +607,14 @@ app.post('/checkaddedfriends', async (req, res) => {
             );
             const clashes = parseInt(clash.rows[0].clashes, 10)
             if (clashes > 0) {
-                clashfriends.push(friendid);
+                const uname = await pool.query(`
+                    SELECT username FROM users WHERE id = $1`,
+                    [friendid]
+                );
+                clashfriends.push(uname.rows[0].username);
             }
         }
+
         if (clashfriends.length > 0) {
             res.json({ success: true, clashfriends: clashfriends});
         } else {
