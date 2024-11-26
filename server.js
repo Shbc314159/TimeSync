@@ -5,7 +5,7 @@ const { Pool } = require('pg');
 const app = express();
 
 app.use(bodyParser.json());
-/*
+
 const pool = new Pool({ 
     user: 'postgres',
     host: 'localhost',
@@ -13,12 +13,12 @@ const pool = new Pool({
     database: 'local',
     password: 'mitsPost27',
 });
-*/
+/*
 
 const pool = new Pool({
     connectionString: "postgresql://database_o1pk_user:OO0kTMxl4YgHvazGn7EU7sBwEXT1zv5c@dpg-cr2ffhbtq21c73f87klg-a/database_o1pk"
 });
-
+*/
 
 app.use(express.static(path.join(__dirname)));
 
@@ -587,6 +587,37 @@ app.post('/calendarDayViewFriend', async (req, res) => {
     }
     catch (err) {
         res.status(500).json({error: err.message}); 
+    }
+});
+
+app.post('/checkaddedfriends', async (req, res) => {
+    try {
+        const startTime = req.body.startTime;
+        const endTime = req.body.endTime;
+        const friendids = req.body.addedFriends;
+        clashfriends = [];
+        console.log(startTime, endTime, friendids);
+
+        for (const friendid of friendids) {
+            const clash = await pool.query(`
+                SELECT COUNT(*) AS clashes
+                FROM events
+                WHERE ($1 <= end_time AND $2 >= start_time)
+                AND userid = $3`,
+                [startTime, endTime, friendid]
+            );
+            const clashes = parseInt(clash.rows[0].clashes, 10)
+            if (clashes > 0) {
+                clashfriends.push(friendid);
+            }
+        }
+        if (clashfriends.length > 0) {
+            res.json({ success: true, clashfriends: clashfriends});
+        } else {
+            res.json({ success: false, clashfriends: []});
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

@@ -143,6 +143,28 @@ async function createNewEvent() {
         }
     }
 
+    const friendsbusy = await fetch('/checkaddedfriends', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            startTime: startTime,
+            endTime: endTime,
+            repeats: repeats,
+            addedFriends: addedFriends
+        })
+    })
+
+    const friendsbusydata = await friendsbusy.json();
+
+    if (friendsbusydata.success) {
+        if (!confirm(friendsbusydata.clashfriends+ ' are busy during the specified time range. Do you want to create the event still?')) {
+            return;
+        }
+    }
+    console.log(friendsbusydata.success, friendsbusydata.clashfriends);
+
     let visibleFriends = [];
     let visibleList = document.getElementById('visible-friends-container');
     for (let i = 0; i < visibleList.children.length; i++) {
