@@ -56,3 +56,28 @@ function logout() {
     setSessionCookie('username', null);
     window.location.href = '/login.html';
 }
+
+const select = document.getElementById('time-selector');
+        for (let minutes = 5; minutes <= 90; minutes += 5) {
+            const option = document.createElement('option');
+            option.value = minutes;
+            option.textContent = `${minutes} minutes`;
+            select.appendChild(option);
+}
+
+async function scanTime() {
+    const timelength = document.getElementById('time-selector').value * 60 * 1000;
+    const response = await fetch('/scanTimes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userid: getCookie('userid'),
+            timelength: timelength
+        })
+    });
+
+    const data = await response.json();
+    console.log(data);
+}
