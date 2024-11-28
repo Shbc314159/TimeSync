@@ -626,32 +626,48 @@ app.post('/checkaddedfriends', async (req, res) => {
 });
 
 app.post('/scanTimes', async (req, res) => {
-    const length = parseInt(req.body.timelength);
-    const id = req.body.userid;
-    const uniWeekStart = new Date(1950, 0, 1, 0, 0, 0);
-    const baseTime = uniWeekStart.getTime();
-    let events = await getUserEvents(id);
-    events = mapEventsToStdWeek(events, uniWeekStart);
-    events = quicksort(events);
-    categories = new Array(12*24*7).fill(0);
+    try {
+        const length = parseInt(req.body.timelength) / (60*5*1000);
+        const id = req.body.userid;
+        const uniWeekStart = new Date(1950, 0, 1, 0, 0, 0);
+        const baseTime = uniWeekStart.getTime();
+        let events = await getUserEvents(id);
+        events = mapEventsToStdWeek(events, uniWeekStart);
+        events = quicksort(events);
+        categories = new Array(12*24*7).fill(0);
+        let lowest = events.length;
 
-    for (let i = 0; i < categories.length; i++) {
-        let start = baseTime + i * 60 * 1000 * 5;
-        let end = start + 5 * 60 * 1000;
-        let j = 0;
-        while (j < events.length) {
-            const item = events[j];
-            if (item.end_time.getTime() < start) {
-                events.splice(j, 1);
-            } else if (item.start_time.getTime() < end) {
-                categories[i]++;
-                j++;
-            } else {
-                j++;
+        for (let i = 0; i < categories.length; i++) {
+            let start = baseTime + i * 60 * 1000 * 5;
+            let end = start + 5 * 60 * 1000;
+            let j = 0;
+            while (j < events.length) {
+                const item = events[j];
+                if (item.end_time.getTime() < start) {
+                    events.splice(j, 1);
+                } else if (item.start_time.getTime() < end) {
+                    categories[i]++;
+                    j++;
+                } else {
+                    j++;
+                }
             }
         }
+        let lowest_time = 0;
+        for (let i = 0; i < categories.length - length; i++) {
+            sum = 0;
+            for (let j = i; j < i + length; j++) {
+                sum += categories[j];
+            }
+            if (sum < lowest) {
+                lowest = sum;
+                lowest_time = i * 60 * 1000 * 5;
+            }
+        }
+        res.json({ lowest_time: lowest_time });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-
 });
 
 async function getUserEvents(id) {

@@ -1,3 +1,5 @@
+const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 async function loadPage() {
     const usernameElement = document.getElementById('username');
     const userIdElement = document.getElementById('userID');
@@ -79,5 +81,14 @@ async function scanTime() {
     });
 
     const data = await response.json();
-    console.log(data);
+    const time = data.lowest_time;
+    let day = Math.floor(time / (24*3600*1000));
+    day = daysOfWeek[day];
+    let rem = time % (24*3600*1000);
+    const hour = Math.floor(rem / (3600*1000));
+    rem = rem % (3600*1000);
+    const minute = Math.floor(rem / (60*1000));
+    
+    const result_text = document.getElementById('result');
+    result_text.textContent = `You are most likely to be free on ${day} at ${hour}:${minute}`;
 }
