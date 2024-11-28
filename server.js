@@ -628,10 +628,29 @@ app.post('/checkaddedfriends', async (req, res) => {
 app.post('/scanTimes', async (req, res) => {
     const length = parseInt(req.body.timelength);
     const id = req.body.userid;
-    const uniWeekStart = new Date("1950-01-01T00:00:00Z");
+    const uniWeekStart = new Date(1950, 0, 1, 0, 0, 0);
+    const baseTime = uniWeekStart.getTime();
     let events = await getUserEvents(id);
     events = mapEventsToStdWeek(events, uniWeekStart);
-    console.log(events);
+    events = quicksort(events);
+    categories = new Array(12*24*7).fill(0);
+
+    for (let i = 0; i < categories.length; i++) {
+        let start = baseTime + i * 60 * 1000 * 5;
+        let end = start + 5 * 60 * 1000;
+        let j = 0;
+        while (j < events.length) {
+            const item = events[j];
+            if (item.end_time.getTime() < start) {
+                events.splice(j, 1);
+            } else if (item.start_time.getTime() < end) {
+                categories[i]++;
+                j++;
+            } else {
+                j++;
+            }
+        }
+    }
 
 });
 
@@ -645,10 +664,7 @@ async function getUserEvents(id) {
 
 function mapEventsToStdWeek(events, weekStart) {
     let newEvents = [];
-    let index = 0;
     for (let item of events) {
-        index++;
-        console.log(index);
         day = item.start_time.getDay() + 1;
         hour = item.start_time.getHours();
         minute = item.start_time.getMinutes();
@@ -683,9 +699,6 @@ function mapEventsToStdWeek(events, weekStart) {
                 end_time: newEnd
             })
         }
-
-        console.log(Math.floor((item.end_time.getTime() - item.start_time.getTime())/(24*3600*7*1000)));
-
         for (let i = 0; 
             i < Math.floor((item.end_time.getTime() - item.start_time.getTime())/(24*3600*7*1000)); 
             i++) {
@@ -700,6 +713,28 @@ function mapEventsToStdWeek(events, weekStart) {
     }
 
     return newEvents;
+}
+
+function quicksort(arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+
+    const pivot = arr[arr.length - 1];
+    const pivotTime = new Date(pivot.start_time).getTime();
+    const left = [];
+    const right = [];
+    
+    for (let i = 0; i < arr.length - 1; i++) {
+        const currentTime = new Date(arr[i].start_time).getTime();
+        if (currentTime < pivotTime) {
+            left.push(arr[i]);
+        } else {
+            right.push(arr[i]);
+        }
+    }
+    
+    return [...quicksort(left), pivot, ...quicksort(right)];
 }
 
 app.get('*', (req, res) => {
