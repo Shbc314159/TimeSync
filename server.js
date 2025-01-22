@@ -387,7 +387,6 @@ app.post('/getrequests', async (req, res) => {
 
 app.post('/requestfriend', async (req, res) => {
     try {
-        console.log('hello');
         const userAskId = req.body.userid;
         const userAnswerId = req.body.friendid;
         const currentFriends = await pool.query(`
@@ -395,10 +394,8 @@ app.post('/requestfriend', async (req, res) => {
             WHERE (user1id = $1 AND user2id = $2) OR (user1id = $2 AND user2id = $1)`,
             [userAskId, userAnswerId]
         );
-        console.log(currentFriends);
-        console.log(currentFriends.rows);
-        console.log(currentFriends.rows[0]);
-        if (parseInt(currentFriends.rows[0].count) > 0) {
+        console.log(Number(currentFriends.rows[0].count));
+        if (Number(currentFriends.rows[0].count) > 0) {
             return res.status(700).json({ error: 'Already friends' });
         }
 
