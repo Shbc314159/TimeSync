@@ -184,8 +184,8 @@ async function createNewEvent() {
         return;
     }
 
-    if (eventName.length > 100) {
-        alert('Event name should not exceed 100 characters.');
+    if (eventName.length > 30) {
+        alert('Event name should not exceed 30 characters.');
         return;
     }
 
