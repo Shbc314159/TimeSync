@@ -54,7 +54,7 @@ async function requestFriend() {
     console.log(response.error);
 
     if (!response.ok) {
-        if (response.status == 700) {
+        if (response.status == 409) {
             alert('Error: users are already friends');
         } else {
             alert('Error requesting friend');

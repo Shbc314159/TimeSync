@@ -396,7 +396,7 @@ app.post('/requestfriend', async (req, res) => {
         );
         console.log(Number(currentFriends.rows[0].count));
         if (Number(currentFriends.rows[0].count) > 0) {
-            return res.status(700).json({ error: 'Already friends' });
+            return res.status(409).json({ error: 'Already friends' });
         }
 
         const result = await pool.query(`
