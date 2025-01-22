@@ -56,6 +56,8 @@ async function requestFriend() {
         } else {
             alert('Error requesting friend');
         }
+        console.log(response);
+        console.log(response.error);
         return;
     } else {
         alert('Friend request sent');
