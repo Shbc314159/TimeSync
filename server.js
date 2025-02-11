@@ -10,7 +10,7 @@ const app = express();
 // Use Body Parser to parse incoming JSON requests
 app.use(bodyParser.json());
 
-
+/*
  // Example of a local database connection pool. Commented out for reference.
  const pool = new Pool({
      user: 'postgres',
@@ -19,12 +19,12 @@ app.use(bodyParser.json());
      database: 'local',
      password: 'mitsPost27',
 });
-/*
+*/
 // Create a pool for connecting to the PostgreSQL database (remote config here)
 const pool = new Pool({
     connectionString: "postgresql://database_o1pk_user:OO0kTMxl4YgHvazGn7EU7sBwEXT1zv5c@dpg-cr2ffhbtq21c73f87klg-a/database_o1pk"
 });
-*/
+
 
 // Serve static files (HTML, CSS, JS) from the current directory
 app.use(express.static(path.join(__dirname)));
