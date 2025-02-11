@@ -1,4 +1,3 @@
-import { createRoot } from 'react-dom/client';
 
 function FriendRequests(_ref) {
     var data = _ref.data;
@@ -108,7 +107,7 @@ function Friends(_ref2) {
 
 function displayFriends(data) {
     var domContainer = document.getElementById('friends-container');
-    var root = createRoot(domContainer);
+    var root = ReactDOM.createRoot(domContainer);
 
     root.render(React.createElement(Friends, { data: data }));
 }

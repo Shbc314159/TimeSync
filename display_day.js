@@ -1,5 +1,3 @@
-import { createRoot } from 'react-dom/client';
-
 var root = null;
 
 function EventList(_ref) {
@@ -91,7 +89,7 @@ function EventList(_ref) {
 function displayDay(data) {
     if (root == null) {
         var domContainer = document.getElementById('eventList');
-        root = createRoot(domContainer);
+        root = ReactDOM.createRoot(domContainer);
     }
 
     root.render(React.createElement(EventList, { data: data }));
