@@ -1,59 +1,100 @@
 import { createRoot } from 'react-dom/client';
 
-let root = null;
+var root = null;
 
-function EventList({ data }) { 
-    const events = [];
-    const year = getCookie('year');
-    const month = getCookie('month');
-    const day = getCookie('day');
-    const start_day = new Date(year, month, day, 0, 0, 0);
-    const end_day = new Date(year, month, day, 23, 59, 59);
+function EventList(_ref) {
+    var data = _ref.data;
 
-    for (const event of data) {
-        start_time = new Date(event.start_time);
-        end_time = new Date(event.end_time);
+    var events = [];
+    var year = getCookie('year');
+    var month = getCookie('month');
+    var day = getCookie('day');
+    var start_day = new Date(year, month, day, 0, 0, 0);
+    var end_day = new Date(year, month, day, 23, 59, 59);
 
-        const formatTime = (date) => {
-            if (date < start_day) {
-                return `00:00`;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var event = _step.value;
+
+            start_time = new Date(event.start_time);
+            end_time = new Date(event.end_time);
+
+            var formatTime = function formatTime(date) {
+                if (date < start_day) {
+                    return '00:00';
+                }
+                if (date > end_day) {
+                    return '23:59';
+                }
+
+                var hours = date.getHours().toString().padStart(2, '0');
+                var minutes = date.getMinutes().toString().padStart(2, '0');
+                return hours + ':' + minutes;
+            };
+
+            var color = getRandomColor();
+
+            events.push(React.createElement(
+                'div',
+                { className: 'event', key: event.id },
+                React.createElement(
+                    'div',
+                    { className: 'times' },
+                    React.createElement(
+                        'p',
+                        { className: 'start-time' },
+                        formatTime(start_time)
+                    ),
+                    React.createElement(
+                        'p',
+                        { className: 'end-time' },
+                        formatTime(end_time)
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'eventBar', id: event.id, 'data-added': event.isaddedevent, style: { backgroundColor: '' + color } },
+                    React.createElement(
+                        'p',
+                        { className: 'eventName' },
+                        event.name
+                    )
+                )
+            ));
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
             }
-            if (date > end_day) {
-                return `23:59`;
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
             }
-
-            const hours = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            return `${hours}:${minutes}`;
-        };
-
-        let color = getRandomColor();
-
-
-        events.push(
-            <div className='event' key={event.id}>
-                <div className='times'>
-                    <p className='start-time'>{formatTime(start_time)}</p>
-                    <p className='end-time'>{formatTime(end_time)}</p>
-                </div>
-                <div className="eventBar" id={event.id} data-added={event.isaddedevent} style={{backgroundColor: `${color}`}}>
-                    <p className='eventName'>{event.name}</p>
-                </div>
-            </div> 
-        )
+        }
     }
-    return <div>{events}</div>
+
+    return React.createElement(
+        'div',
+        null,
+        events
+    );
 }
 
 function displayDay(data) {
     if (root == null) {
-        const domContainer = document.getElementById('eventList');
+        var domContainer = document.getElementById('eventList');
         root = createRoot(domContainer);
     }
 
-    root.render(
-        <EventList data={data} />
-    );
-} 
+    root.render(React.createElement(EventList, { data: data }));
+}
 
 window.displayDay = displayDay;

@@ -1,57 +1,116 @@
 import { createRoot } from 'react-dom/client';
 
-function FriendRequests({ data }) {
-    const requests = data.map(request => (
-        <div key={request.id} className='request-container'>
-            <div className="requesterInfo">
-                <p className="request-text"><span style={{ fontWeight: "550", fontSize: "20px" }}>{request.username}</span> wants to connect</p>
-                <p className="request-id">UserID #{request.id}</p>
-            </div>
-            <button className="accept-request" onClick={() => acceptRequest(request.id)}>Accept</button>
-            <button className="reject-request" onClick={() => declineRequest(request.id)}>Decline</button>
-        </div>
-    ));
+function FriendRequests(_ref) {
+    var data = _ref.data;
 
-    return <div>{requests}</div>;
+    var requests = data.map(function (request) {
+        return React.createElement(
+            'div',
+            { key: request.id, className: 'request-container' },
+            React.createElement(
+                'div',
+                { className: 'requesterInfo' },
+                React.createElement(
+                    'p',
+                    { className: 'request-text' },
+                    React.createElement(
+                        'span',
+                        { style: { fontWeight: "550", fontSize: "20px" } },
+                        request.username
+                    ),
+                    ' wants to connect'
+                ),
+                React.createElement(
+                    'p',
+                    { className: 'request-id' },
+                    'UserID #',
+                    request.id
+                )
+            ),
+            React.createElement(
+                'button',
+                { className: 'accept-request', onClick: function onClick() {
+                        return acceptRequest(request.id);
+                    } },
+                'Accept'
+            ),
+            React.createElement(
+                'button',
+                { className: 'reject-request', onClick: function onClick() {
+                        return declineRequest(request.id);
+                    } },
+                'Decline'
+            )
+        );
+    });
+
+    return React.createElement(
+        'div',
+        null,
+        requests
+    );
 }
 
 function displayRequests(requests) {
-    let domContainer = document.getElementById('friend-request-container');
-    let root = ReactDOM.createRoot(domContainer);
+    var domContainer = document.getElementById('friend-request-container');
+    var root = ReactDOM.createRoot(domContainer);
 
-    root.render(
-        <FriendRequests data={requests} />
-    );
+    root.render(React.createElement(FriendRequests, { data: requests }));
 }
 
 window.displayRequests = displayRequests;
 
-function Friends({ data }) {
-    const friends = [];
+function Friends(_ref2) {
+    var data = _ref2.data;
 
-    for (let i = 0; i < data.length; i++) {
-        const friend = data[i];
-        friends.push(
-            <div key={i} className='friend-container'>
-                <div className="friendInfo">
-                    <p className="friend-uname">{friend[1]}</p>
-                    <p className="friend-id" id={friend[0]}>UserID #{friend[0]}</p>
-                </div>
-                <button className="remove-friend" onClick={() => removeFriend(friend[0])}>Remove</button>
-            </div>
-        );
-      }
+    var friends = [];
 
-    return <div>{friends}</div>;
+    var _loop = function _loop(i) {
+        var friend = data[i];
+        friends.push(React.createElement(
+            'div',
+            { key: i, className: 'friend-container' },
+            React.createElement(
+                'div',
+                { className: 'friendInfo' },
+                React.createElement(
+                    'p',
+                    { className: 'friend-uname' },
+                    friend[1]
+                ),
+                React.createElement(
+                    'p',
+                    { className: 'friend-id', id: friend[0] },
+                    'UserID #',
+                    friend[0]
+                )
+            ),
+            React.createElement(
+                'button',
+                { className: 'remove-friend', onClick: function onClick() {
+                        return removeFriend(friend[0]);
+                    } },
+                'Remove'
+            )
+        ));
+    };
+
+    for (var i = 0; i < data.length; i++) {
+        _loop(i);
+    }
+
+    return React.createElement(
+        'div',
+        null,
+        friends
+    );
 }
 
 function displayFriends(data) {
-    let domContainer = document.getElementById('friends-container');
-    let root = createRoot(domContainer);
+    var domContainer = document.getElementById('friends-container');
+    var root = createRoot(domContainer);
 
-    root.render(
-        <Friends data={data} />
-    );
+    root.render(React.createElement(Friends, { data: data }));
 }
 
 window.displayFriends = displayFriends;
