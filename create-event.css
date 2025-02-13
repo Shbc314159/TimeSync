@@ -127,6 +127,7 @@ body {
     border: 2px solid rgb(0, 8, 90);
     font-family: "Inter";
     overflow: scroll;
+    width: 40vw;
 }
 
 #addedUsers-input:focus {
