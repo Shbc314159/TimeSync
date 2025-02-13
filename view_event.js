@@ -348,6 +348,7 @@ function modifyPage() {
     leaveButton.id = "deletebutton";
     leaveButton.textContent = "Leave";
     leaveButton.onclick = leaveEvent;
+    leaveButton.style.marginBottom = "10vh";
 
     buttonsDiv.appendChild(leaveButton);
 }
