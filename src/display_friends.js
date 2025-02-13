@@ -1,5 +1,3 @@
-import { createRoot } from 'react-dom/client';
-
 function FriendRequests({ data }) {
     const requests = data.map(request => (
         <div key={request.id} className='request-container'>
@@ -47,7 +45,7 @@ function Friends({ data }) {
 
 function displayFriends(data) {
     let domContainer = document.getElementById('friends-container');
-    let root = createRoot(domContainer);
+    let root = ReactDOM.createRoot(domContainer);
 
     root.render(
         <Friends data={data} />

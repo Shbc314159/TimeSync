@@ -1,50 +1,49 @@
-
 function FriendRequests(_ref) {
     var data = _ref.data;
 
     var requests = data.map(function (request) {
         return React.createElement(
-            'div',
-            { key: request.id, className: 'request-container' },
+            "div",
+            { key: request.id, className: "request-container" },
             React.createElement(
-                'div',
-                { className: 'requesterInfo' },
+                "div",
+                { className: "requesterInfo" },
                 React.createElement(
-                    'p',
-                    { className: 'request-text' },
+                    "p",
+                    { className: "request-text" },
                     React.createElement(
-                        'span',
+                        "span",
                         { style: { fontWeight: "550", fontSize: "20px" } },
                         request.username
                     ),
-                    ' wants to connect'
+                    " wants to connect"
                 ),
                 React.createElement(
-                    'p',
-                    { className: 'request-id' },
-                    'UserID #',
+                    "p",
+                    { className: "request-id" },
+                    "UserID #",
                     request.id
                 )
             ),
             React.createElement(
-                'button',
-                { className: 'accept-request', onClick: function onClick() {
+                "button",
+                { className: "accept-request", onClick: function onClick() {
                         return acceptRequest(request.id);
                     } },
-                'Accept'
+                "Accept"
             ),
             React.createElement(
-                'button',
-                { className: 'reject-request', onClick: function onClick() {
+                "button",
+                { className: "reject-request", onClick: function onClick() {
                         return declineRequest(request.id);
                     } },
-                'Decline'
+                "Decline"
             )
         );
     });
 
     return React.createElement(
-        'div',
+        "div",
         null,
         requests
     );
@@ -67,29 +66,29 @@ function Friends(_ref2) {
     var _loop = function _loop(i) {
         var friend = data[i];
         friends.push(React.createElement(
-            'div',
-            { key: i, className: 'friend-container' },
+            "div",
+            { key: i, className: "friend-container" },
             React.createElement(
-                'div',
-                { className: 'friendInfo' },
+                "div",
+                { className: "friendInfo" },
                 React.createElement(
-                    'p',
-                    { className: 'friend-uname' },
+                    "p",
+                    { className: "friend-uname" },
                     friend[1]
                 ),
                 React.createElement(
-                    'p',
-                    { className: 'friend-id', id: friend[0] },
-                    'UserID #',
+                    "p",
+                    { className: "friend-id", id: friend[0] },
+                    "UserID #",
                     friend[0]
                 )
             ),
             React.createElement(
-                'button',
-                { className: 'remove-friend', onClick: function onClick() {
+                "button",
+                { className: "remove-friend", onClick: function onClick() {
                         return removeFriend(friend[0]);
                     } },
-                'Remove'
+                "Remove"
             )
         ));
     };
@@ -99,7 +98,7 @@ function Friends(_ref2) {
     }
 
     return React.createElement(
-        'div',
+        "div",
         null,
         friends
     );

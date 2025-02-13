@@ -15,6 +15,7 @@ async function loadPage() {
         return;
     } else {
         let requests = await response.json();
+        console.log(requests);
         displayRequests(requests.requests);
     }
 

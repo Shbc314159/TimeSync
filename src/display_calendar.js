@@ -1,5 +1,3 @@
-import { createRoot } from 'react-dom/client';
-
 let root = null;
 
 function Title({ text }) {
@@ -121,7 +119,7 @@ function CalendarBoxes({data}) {
 function displayCalendar(data) {
     if (root == null) {
         const domContainer = document.querySelector('#calendar');
-        root = createRoot(domContainer);
+        root = ReactDOM.createRoot(domContainer);
     }
     const monthName = getMonthName(getCookie('month'))
     const year = getCookie('year');
