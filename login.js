@@ -1,6 +1,10 @@
 async function startlogin() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    if (username == null || password == null) {
+        alert('Please fill in all fields.');
+        return;
+    }
     const userid = await login(username, password);
     if (userid != null) {
         setSessionCookie('userid', userid);
