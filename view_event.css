@@ -262,6 +262,7 @@ body {
     color: white;
     font-size: 20px;
     margin-right: calc(5 * var(--vw));
+    margin-bottom: 10vh;
 }
 
 #deletebutton {
@@ -274,4 +275,5 @@ body {
     color: white;
     font-size: 20px;
     margin-left: calc(5 * var(--vw));
+    margin-bottom: 10vh;
 }
