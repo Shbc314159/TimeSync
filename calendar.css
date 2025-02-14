@@ -66,6 +66,10 @@ body {
     padding: calc(0.25 * var(--vh)) calc(0 * var(--vh));
 }
 
+.boxnum strong {
+    float: right;
+}
+
 #calendar-box-container {
     display: grid;
     grid-template-columns: repeat(7, calc(14.284 * var(--vw)));
@@ -89,6 +93,7 @@ body {
     font-family: "Inter";
     font-weight: 100;
     font-size: calc(1.9 * var(--vh));
+    white-space: pre-wrap;
 }
 
 .event {

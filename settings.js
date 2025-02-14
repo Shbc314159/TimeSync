@@ -69,6 +69,9 @@ const select = document.getElementById('time-selector');
 
 async function scanTime() {
     const timelength = document.getElementById('time-selector').value * 60 * 1000;
+    const sleepStart = document.getElementById('sleep-start').value; // e.g., "23:00"
+    const sleepEnd = document.getElementById('sleep-end').value;     // e.g., "07:00"
+    
     const response = await fetch('/scanTimes', {
         method: 'POST',
         headers: {
@@ -76,7 +79,9 @@ async function scanTime() {
         },
         body: JSON.stringify({
             userid: getCookie('userid'),
-            timelength: timelength
+            timelength: timelength,
+            sleepStart: sleepStart,
+            sleepEnd: sleepEnd
         })
     });
 
@@ -85,9 +90,10 @@ async function scanTime() {
     let day = Math.floor(time / (24*3600*1000));
     day = daysOfWeek[day];
     let rem = time % (24*3600*1000);
-    const hour = Math.floor(rem / (3600*1000));
+    const hour = String(Math.floor(rem / (3600*1000))).padStart(2, '0');
     rem = rem % (3600*1000);
-    const minute = Math.floor(rem / (60*1000));
+    const minute = String(Math.floor(rem / (60*1000))).padStart(2, '0');
+    
     
     const result_text = document.getElementById('result');
     result_text.textContent = `You are most likely to be free on ${day} at ${hour}:${minute}`;

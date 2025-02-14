@@ -31,10 +31,14 @@
                 <span class="slider"></span>
             </label>
         </div>
-        <button onclick="logout()">Logout</button>
-        <br />
-        <br />
         <p>Scan your past events to see what time of the week you're most likely to be free for a certain time!</p>
+        <p>Select your sleep times (when you're unavailable):</p>
+        <label for="sleep-start">Sleep Start:</label>
+        <input type="time" id="sleep-start" name="sleep-start">
+        <br />
+        <label for="sleep-end">Sleep End:</label>
+        <input type="time" id="sleep-end" name="sleep-end">
+        <br />
         <br />
         <label for="time-selector">Length of time to scan for:</label>
         <select id="time-selector" name="time"></select>
@@ -42,6 +46,10 @@
         <br />
         <button onclick="scanTime()">Scan</button>
         <p id="result"></p>
+        <br />
+        <br />
+        <br />
+        <button onclick="logout()">Logout</button>
         <ul id="navbar">
             <li class="navbar-item"><a href="calendar.html"><img class="navbar-img" src="calendar-navbar.png" /></a></li>
             <li class="navbar-item"><a href="friends.html"><img class="navbar-img" src="friends-navbar.png" /></a></li>

@@ -68,6 +68,19 @@ function Events({ data, boxnum, firstDay, longEvents, lines, eventsNotDisplayed 
                     eventElements.push(<p key={event.id} id={`event${event.id}`} className="event" style={{marginTop: `${numpixels}px`, backgroundColor: `${color}`}}>{event.name}</p>);
                 } else {
                     eventsNotDisplayed.push(event.id);
+                    setTimeout(() => {
+                        const boxElement = document.getElementById(`calendar-box${boxnum}`);
+                        if (boxElement) {
+                          const boxNumberElement = boxElement.querySelector('.boxnum');
+                          if (boxNumberElement) {
+                            if (!boxNumberElement.querySelector('strong')) {
+                                const strongElem = document.createElement('strong');
+                                strongElem.textContent = '+ ';
+                                boxNumberElement.appendChild(strongElem);
+                            }
+                          }
+                        }
+                      }, 0);
                     continue;
                 }
             };
@@ -87,6 +100,10 @@ function Events({ data, boxnum, firstDay, longEvents, lines, eventsNotDisplayed 
                 }
             }
         }
+    }
+
+    if (eventsNotDisplayed.length > 0) {
+        
     }
 
     return eventElements;

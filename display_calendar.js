@@ -124,6 +124,19 @@ function Events(_ref3) {
                     ));
                 } else {
                     eventsNotDisplayed.push(event.id);
+                    setTimeout(function () {
+                        var boxElement = document.getElementById("calendar-box" + boxnum);
+                        if (boxElement) {
+                            var boxNumberElement = boxElement.querySelector('.boxnum');
+                            if (boxNumberElement) {
+                                if (!boxNumberElement.querySelector('strong')) {
+                                    var strongElem = document.createElement('strong');
+                                    strongElem.textContent = '+ ';
+                                    boxNumberElement.appendChild(strongElem);
+                                }
+                            }
+                        }
+                    }, 0);
                     return "continue";
                 }
             };
@@ -172,6 +185,8 @@ function Events(_ref3) {
             }
         }
     }
+
+    if (eventsNotDisplayed.length > 0) {}
 
     return eventElements;
 }

@@ -118,16 +118,28 @@ async function createNewEvent() {
     const userid = getCookie('userid');
     const eventName = document.getElementById('name-input').value;
     const eventDescription = document.getElementById('description-input').value;
+    const isAllDay = document.getElementById('all-day-input').checked;
+    const startInputValue = document.getElementById('start-input').value;
+    const endInputValue = document.getElementById('end-input').value;
+    
     let startTime;
     let endTime;
+    
     try {
-        startTime = new Date(document.getElementById('start-input').value).toISOString();
-        endTime = new Date(document.getElementById('end-input').value).toISOString();  
+      if (isAllDay) {
+        // For all-day events (inputs are type "date"), add times for start and end of day
+        startTime = new Date(startInputValue + 'T00:00:00').toISOString();
+        endTime = new Date(endInputValue + 'T23:59:59').toISOString();
+      } else {
+        // For timed events (inputs are type "datetime-local"), convert directly
+        startTime = new Date(startInputValue).toISOString();
+        endTime = new Date(endInputValue).toISOString();
+      }
     } catch (error) {
-        if (error instanceof RangeError) {
-            alert('Please enter valid datetimes for the start and end of the event.');
-            return;
-        }
+      if (error instanceof RangeError) {
+        alert('Please enter valid dates for the start and end of the event.');
+        return;
+      }
     }
     const repeats = parseInt(document.getElementById('repeat-input').value);
 
@@ -143,6 +155,8 @@ async function createNewEvent() {
         }
     }
 
+    let addedFriendsAndMe = [...addedFriends, userid];
+
     const friendsbusy = await fetch('/checkaddedfriends', {
         method: 'POST',
         headers: {
@@ -152,13 +166,20 @@ async function createNewEvent() {
             startTime: startTime,
             endTime: endTime,
             repeats: repeats,
-            addedFriends: addedFriends
+            addedFriends: addedFriendsAndMe
         })
     })
 
     const friendsbusydata = await friendsbusy.json();
 
     if (friendsbusydata.success) {
+        let uname = getCookie('username');
+        for (let i = 0; i < friendsbusydata.clashfriends.length; i++) {
+            if (friendsbusydata.clashfriends[i] === uname) {
+                friendsbusydata.clashfriends[i] = 'you';
+            }
+        }
+        
         if (!confirm(friendsbusydata.clashfriends+ ' are busy during the specified time range. Do you want to create the event still?')) {
             return;
         }
@@ -269,3 +290,20 @@ async function createRepeatedEvents(userid, eventName, eventDescription, startTi
         return 0;
     }
 }
+
+function toggleAllDay() {
+    const allDayCheckbox = document.getElementById('all-day-input');
+    const startInput = document.getElementById('start-input');
+    const endInput = document.getElementById('end-input');
+  
+    if (allDayCheckbox.checked) {
+      // Change to date pickers for all-day events
+      startInput.type = 'date';
+      endInput.type = 'date';
+    } else {
+      // Revert back to date-time pickers
+      startInput.type = 'datetime-local';
+      endInput.type = 'datetime-local';
+    }
+  }
+  

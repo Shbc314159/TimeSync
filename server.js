@@ -894,6 +894,16 @@ app.post('/scanTimes', async (req, res) => {
         const length = parseInt(req.body.timelength) / (60 * 5 * 1000);
         const id = req.body.userid;
 
+        const sleepStartStr = req.body.sleepStart;
+        const sleepEndStr = req.body.sleepEnd;
+        const parseTimeToMinutes = (timeStr) => {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
+        };
+
+        const sleepStartMins = parseTimeToMinutes(sleepStartStr);
+        const sleepEndMins = parseTimeToMinutes(sleepEndStr);
+
         // A reference date (1950-01-01) used to normalize all event times to a single "universal" week
         const uniWeekStart = new Date(1950, 0, 1, 0, 0, 0);
         const baseTime = uniWeekStart.getTime();
@@ -935,16 +945,44 @@ app.post('/scanTimes', async (req, res) => {
             }
         }
 
-        // Slide a window of length 'length' across categories to find minimum sum
-        let lowest_time = 0;
-        for (let i = 0; i < categories.length - length; i++) {
+                // Create an array to flag sleep blocks.
+        // Each day has 288 blocks (24 hours * 12 blocks per hour).
+        const totalBlocksPerDay = 24 * 12; // 288
+        let isSleepBlock = new Array(categories.length).fill(false);
+
+        for (let i = 0; i < categories.length; i++) {
+            // local time in minutes within the day
+            const localMins = (i % totalBlocksPerDay) * 5;
+            if (sleepStartMins < sleepEndMins) {
+                // Sleep period does NOT span midnight.
+                if (localMins >= sleepStartMins && localMins < sleepEndMins) {
+                    isSleepBlock[i] = true;
+                }
+            } else {
+                // Sleep period spans midnight (e.g., 23:00 to 07:00)
+                if (localMins >= sleepStartMins || localMins < sleepEndMins) {
+                    isSleepBlock[i] = true;
+                }
+            }
+        }
+
+        // Slide a window of length 'length' across categories to find the minimum-sum window,
+        // but skip any window that includes a sleep block.
+        let lowest_time = -1;
+        let lowest_sum = Infinity;
+        for (let i = 0; i <= categories.length - length; i++) {
+            let windowIncludesSleep = false;
             let sum = 0;
             for (let j = i; j < i + length; j++) {
+                if (isSleepBlock[j]) {
+                    windowIncludesSleep = true;
+                    break;
+                }
                 sum += categories[j];
             }
-            if (sum < lowest) {
-                lowest = sum;
-                lowest_time = i * 60 * 1000 * 5;
+            if (!windowIncludesSleep && sum < lowest_sum) {
+                lowest_sum = sum;
+                lowest_time = i * 5 * 60 * 1000; // convert block index to milliseconds
             }
         }
 
